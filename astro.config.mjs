@@ -1,4 +1,5 @@
 // @ts-check
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
@@ -12,7 +13,8 @@ export default defineConfig({
             cssMinify: true,
             minify: true
         },
-        css: { transformer: "lightningcss" }
+        css: { transformer: "lightningcss" },
+        plugins: [tailwindcss()]
     },
     server: {
         host: true,
