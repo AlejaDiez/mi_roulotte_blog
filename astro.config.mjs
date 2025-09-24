@@ -1,10 +1,12 @@
 // @ts-check
+import preact from "@astrojs/preact";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
     site: "https://miroulotte.es",
     trailingSlash: "ignore",
+    integrations: [preact()],
     outDir: "build",
     compressHTML: true,
     scopedStyleStrategy: "where",

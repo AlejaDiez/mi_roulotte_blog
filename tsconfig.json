@@ -6,6 +6,8 @@
         "types": ["node"],
         "paths": {
             "@styles/*": ["./src/styles/*"]
-        }
+        },
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact"
     }
 }
