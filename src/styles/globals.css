@@ -7,5 +7,6 @@
     html {
         @apply scheme-light-dark;
         @apply bg-background;
+        @apply text-normal;
     }
 }
