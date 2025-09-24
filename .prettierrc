@@ -1,0 +1,26 @@
+{
+    "plugins": [
+        "prettier-plugin-astro",
+        "prettier-plugin-css-order",
+        "prettier-plugin-organize-imports",
+        "prettier-plugin-tailwindcss"
+    ],
+    "overrides": [
+        {
+            "files": "*.astro",
+            "options": {
+                "parser": "astro"
+            }
+        }
+    ],
+    "printWidth": 100,
+    "useTabs": false,
+    "tabWidth": 4,
+    "bracketSameLine": true,
+    "semi": true,
+    "arrowParens": "always",
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "cssDeclarationSorter": "concentric-css",
+    "tailwindAttributes": ["class", "class:list"]
+}

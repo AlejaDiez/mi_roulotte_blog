@@ -1,0 +1,30 @@
+{
+    "name": "mi_roulotte_blog",
+    "version": "0.0.0",
+    "description": "A blog where I share our family adventures and travel experiences on the road with our caravan.",
+    "homepage": "https://miroulotte.es",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AlejaDiez/mi_roulotte_blog"
+    },
+    "license": "CC-A-NC-SA-4.0",
+    "author": "Alejandro Diez Bermejo",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview"
+    },
+    "dependencies": {
+        "astro": "^5.13.10"
+    },
+    "devDependencies": {
+        "@types/node": "^24.5.2",
+        "prettier": "^3.6.2",
+        "prettier-plugin-astro": "^0.14.1",
+        "prettier-plugin-css-order": "^2.1.2",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "prettier-plugin-tailwindcss": "^0.6.14"
+    }
+}
