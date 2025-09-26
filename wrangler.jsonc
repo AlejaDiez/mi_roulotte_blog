@@ -1,0 +1,32 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "mi-roulotte-blog",
+    "compatibility_date": "2025-06-01",
+    "compatibility_flags": ["nodejs_compat"],
+    "main": "./build/_worker.js/index.js",
+    "observability": {
+        "enabled": true
+    },
+    "assets": {
+        "binding": "ASSETS",
+        "directory": "./build"
+    },
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "mi-roulotte-db",
+            "database_id": "2f584243-2f1b-4425-b7d6-c0971f34f976"
+        }
+    ],
+    "vars": {
+        "API_HOST": "api.miroulotte.es",
+        "CDN_HOST": "cdn.miroulotte.es",
+        "HOST": "miroulotte.es"
+    }
+    // "routes": [
+    //     {
+    //         "pattern": "miroulotte.es",
+    //         "custom_domain": true
+    //     }
+    // ]
+}

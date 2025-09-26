@@ -1,4 +1,5 @@
 // @ts-check
+import cloudflare from "@astrojs/cloudflare";
 import preact from "@astrojs/preact";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
@@ -6,6 +7,13 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
     site: "https://miroulotte.es",
     trailingSlash: "ignore",
+    output: "server",
+    adapter: cloudflare({
+        platformProxy: {
+            enabled: true,
+            configPath: "./wrangler.jsonc"
+        }
+    }),
     integrations: [preact()],
     outDir: "build",
     compressHTML: true,
