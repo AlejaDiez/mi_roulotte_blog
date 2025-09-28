@@ -22,6 +22,10 @@
     @apply text-foreground-variant font-sans text-xs font-normal tracking-widest not-italic;
 }
 
+@utility text-vertical {
+    writing-mode: vertical-rl;
+}
+
 @utility icon {
     @apply text-foreground-variant font-icon text-xl leading-none font-normal normal-case not-italic antialiased;
 }
@@ -307,5 +311,14 @@
 
     88.8% {
         transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
+    }
+}
+
+@utility scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
     }
 }
