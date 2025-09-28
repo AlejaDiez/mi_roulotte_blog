@@ -1,0 +1,97 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+
+export const prerender = true;
+---
+
+<Layout title="Página no encontrada" class="bg-red-60 dark:bg-red-80 h-screen w-screen">
+    <Header class="floating !fixed" />
+    <Main
+        class="h-full cursor-default !items-center !justify-center !gap-0 pt-(--space-y) pb-32 select-none">
+        <h1 class="text-title text-center text-white">404</h1>
+        <p class="text-red-20 mt-4 mb-10 max-w-xl text-center">
+            ¡Oops! Parece que has tomado un desvío y te encuentras en un lugar algo distinto al que
+            esperabas...
+        </p>
+        <a
+            href="/"
+            class="redirect button button-outline-primary hover:bg-white-hover hover:border-white-hover border-white text-white hover:text-gray-100">
+            <span>Recalcular ruta</span>
+        </a>
+    </Main>
+    <Footer class="floating fixed bottom-0 left-0 bg-transparent" />
+</Layout>
+
+<style is:global>
+    .header.floating {
+        background-color: transparent !important;
+
+        .mi-roulotte-icon,
+        .menu-toggle {
+            color: var(--color-white);
+
+            &:hover {
+                color: var(--color-white-hover);
+            }
+        }
+
+        .menu {
+            a {
+                color: light-dark(var(--color-red-40), var(--color-red-60)) !important;
+
+                &:hover {
+                    color: var(--color-white-hover) !important;
+                }
+            }
+
+            .sub-menu {
+                nav {
+                    background-color: var(--color-red-70);
+
+                    a {
+                        color: var(--color-red-50);
+
+                        &:hover {
+                            color: var(--color-white-hover);
+                        }
+                    }
+                }
+            }
+
+            @media (width < 48rem) {
+                background-color: light-dark(var(--color-red-60), var(--color-red-80));
+
+                .sub-menu nav {
+                    background-color: var(--color-transparent);
+
+                    a {
+                        color: light-dark(var(--color-red-40), var(--color-red-60));
+
+                        &:hover {
+                            color: var(--color-white-hover);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer.floating {
+        background-color: transparent !important;
+
+        .content a {
+            color: light-dark(var(--color-red-40), var(--color-red-60));
+
+            &:hover {
+                color: var(--color-white-hover);
+            }
+        }
+
+        .license span {
+            color: var(--color-red-70);
+        }
+    }
+</style>
