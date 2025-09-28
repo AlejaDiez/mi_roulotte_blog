@@ -79,3 +79,233 @@
     clip-path: inset(0 0 100% 0);
     pointer-events: none;
 }
+
+@utility animation-paused {
+    animation-play-state: paused;
+}
+
+@utility animation-delay-* {
+    animation-delay: --value([*]);
+}
+
+@utility animation-delay-75 {
+    animation-delay: 75ms;
+}
+
+@utility animation-delay-100 {
+    animation-delay: 100ms;
+}
+
+@utility animation-delay-150 {
+    animation-delay: 150ms;
+}
+
+@utility animation-delay-200 {
+    animation-delay: 200ms;
+}
+
+@utility animation-delay-300 {
+    animation-delay: 300ms;
+}
+
+@utility animation-delay-500 {
+    animation-delay: 500ms;
+}
+
+@utility animation-delay-700 {
+    animation-delay: 700ms;
+}
+
+@utility animation-delay-1000 {
+    animation-delay: 1000ms;
+}
+
+@utility animate-fade {
+    animation: 250ms cubic-bezier(0.4, 0, 0.2, 1) backwards fade;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@utility animate-clip-left {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards clip-from-left;
+}
+
+@keyframes clip-from-left {
+    from {
+        transform: translateZ(0);
+        clip-path: inset(0 0 0 100%);
+        pointer-events: none;
+    }
+
+    to {
+        transform: translateZ(0);
+        clip-path: inset(0 0 0 0);
+        pointer-events: all;
+    }
+}
+
+@utility animate-clip-top {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards clip-from-top;
+}
+
+@keyframes clip-from-top {
+    from {
+        transform: translateZ(0);
+        clip-path: inset(100% 0 0 0);
+        pointer-events: none;
+    }
+
+    to {
+        transform: translateZ(0);
+        clip-path: inset(0 0 0 0);
+        pointer-events: all;
+    }
+}
+
+@utility animate-clip-right {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards clip-from-right;
+}
+
+@keyframes clip-from-right {
+    from {
+        transform: translateZ(0);
+        clip-path: inset(0 100% 0 0);
+        pointer-events: none;
+    }
+
+    to {
+        transform: translateZ(0);
+        clip-path: inset(0 0 0 0);
+        pointer-events: all;
+    }
+}
+
+@utility animate-clip-bottom {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards clip-from-bottom;
+}
+
+@keyframes clip-from-bottom {
+    from {
+        transform: translateZ(0);
+        clip-path: inset(0 0 100% 0);
+        pointer-events: none;
+    }
+
+    to {
+        transform: translateZ(0);
+        clip-path: inset(0 0 0 0);
+        pointer-events: all;
+    }
+}
+
+@utility animate-float-top {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards float-top;
+}
+
+@keyframes float-top {
+    from {
+        transform: translateY(1.5rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@utility animate-float-left {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards float-left;
+}
+
+@keyframes float-left {
+    from {
+        transform: translateX(1.5rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@utility animate-float-bottom {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards float-bottom;
+}
+
+@keyframes float-bottom {
+    from {
+        transform: translateY(-1.5rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@utility animate-float-right {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) backwards float-right;
+}
+
+@keyframes float-right {
+    from {
+        transform: translateX(-1.5rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@utility animate-shake {
+    animation: 1s cubic-bezier(0.4, 0, 0.2, 1) shake;
+}
+
+@keyframes shake {
+    0%,
+    11.1%,
+    to {
+        transform: translateZ(0);
+    }
+
+    22.2% {
+        transform: skewX(-12.5deg) skewY(-12.5deg);
+    }
+
+    33.3% {
+        transform: skewX(6.25deg) skewY(6.25deg);
+    }
+
+    44.4% {
+        transform: skewX(-3.125deg) skewY(-3.125deg);
+    }
+
+    55.5% {
+        transform: skewX(1.5625deg) skewY(1.5625deg);
+    }
+
+    66.6% {
+        transform: skewX(-0.78125deg) skewY(-0.78125deg);
+    }
+
+    77.7% {
+        transform: skewX(0.390625deg) skewY(0.390625deg);
+    }
+
+    88.8% {
+        transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
+    }
+}
