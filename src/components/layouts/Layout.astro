@@ -1,0 +1,93 @@
+---
+import "@styles/globals.css";
+import type { BaseProps } from "@models/props";
+
+export interface Props extends BaseProps {
+    title: string;
+    description?: string | null;
+    image?: string | null;
+    keywords?: string[] | null;
+}
+
+const { title, description, image, keywords, id, style, class: cls } = Astro.props;
+const name: string = "Mi Roulotte";
+const lang: string = "es";
+const author: string = "Alejandro Diez Bermejo";
+---
+
+<html {lang}>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+        <title>{title === name ? name : `${title} | ${name}`}</title>
+        {description && <meta name="description" content={description} />}
+        <meta name="author" content={author} />
+        <link
+            rel="canonical"
+            href={new URL(Astro.url.pathname, `https://${Astro.locals.runtime.env.HOST}`)}
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="mi-roulotte" href="/apple-touch-icon.png" />
+        <link rel="mi-roulotte" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
+        <meta http-equiv="Content-Language" content={lang} />
+        <link rel="manifest" href="/manifest.json" />
+        {
+            keywords ? (
+                <>
+                    <meta name="robots" content="follow, index" />
+                    <meta name="googlebot" content="all" />
+                    <meta name="keywords" content={[...new Set(keywords)].join(", ")} />
+                </>
+            ) : (
+                <>
+                    <meta name="robots" content="nofollow, noindex" />
+                    <meta name="googlebot" content="none" />
+                </>
+            )
+        }
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={name} />
+        <meta property="og:title" content={title === name ? name : `${title} | ${name}`} />
+        {description && <meta property="og:description" content={description} />}
+        {image && <meta property="og:image" content={image} />}
+        {image && <meta property="og:image:alt" content={title} />}
+        <meta name="color-scheme" content="light dark" />
+        <script>
+            const sliders = document.body.querySelectorAll<HTMLInputElement>(
+                'input[type="range"].slider'
+            );
+
+            for (const slider of sliders) {
+                const valueCallback = (event: Event) => {
+                    const { detail } = event as CustomEvent;
+                    const value = Number(detail) || 0;
+                    const min = Number(slider.min) || 0;
+                    const max = Number(slider.max) || 100;
+
+                    slider.value = String(value);
+                    slider.style.setProperty(
+                        "--progress",
+                        `${((value - min) / (max - min)) * 100}%`
+                    );
+                };
+                const inputCallback = () => {
+                    slider.dispatchEvent(
+                        new CustomEvent("value", {
+                            detail: slider.value,
+                            bubbles: false,
+                            cancelable: false
+                        })
+                    );
+                };
+
+                slider.addEventListener("value", valueCallback);
+                slider.addEventListener("input", inputCallback);
+                inputCallback();
+            }
+        </script>
+    </head>
+    <body {id} {style} class:list={cls}>
+        <slot />
+    </body>
+</html>

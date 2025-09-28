@@ -1,48 +1,16 @@
 ---
-import "@styles/globals.css";
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+import ScrollToTop from "@components/shared/ScrollToTop.astro";
 ---
 
-<html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <title>Mi Roulotte</title>
-        <script>
-            const sliders = document.body.querySelectorAll<HTMLInputElement>(
-                'input[type="range"].slider'
-            );
-
-            for (const slider of sliders) {
-                const valueCallback = (event: Event) => {
-                    const { detail } = event as CustomEvent;
-                    const value = Number(detail) || 0;
-                    const min = Number(slider.min) || 0;
-                    const max = Number(slider.max) || 100;
-
-                    slider.value = String(value);
-                    slider.style.setProperty(
-                        "--progress",
-                        `${((value - min) / (max - min)) * 100}%`
-                    );
-                };
-                const inputCallback = () => {
-                    slider.dispatchEvent(
-                        new CustomEvent("value", {
-                            detail: slider.value,
-                            bubbles: false,
-                            cancelable: false
-                        })
-                    );
-                };
-
-                slider.addEventListener("value", valueCallback);
-                slider.addEventListener("input", inputCallback);
-                inputCallback();
-            }
-        </script>
-    </head>
-    <body>
+<Layout title="Mi Roulotte">
+    <Header />
+    <Main>
         <h1>Mi Roulotte</h1>
-    </body>
-</html>
+    </Main>
+    <Footer />
+    <ScrollToTop />
+</Layout>
