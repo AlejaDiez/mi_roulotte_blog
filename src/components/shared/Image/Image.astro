@@ -1,0 +1,61 @@
+---
+import type { BaseProps } from "@models/props";
+
+export interface Props extends BaseProps {
+    url: string;
+    caption?: string;
+}
+
+const { url, caption, id, style, class: cls } = Astro.props;
+---
+
+<figure
+    {id}
+    {style}
+    class:list={cls}
+    class="image bg-muted group relative h-auto w-auto cursor-pointer overflow-hidden select-none">
+    <img
+        src={url}
+        alt={caption}
+        loading="lazy"
+        decoding="async"
+        class:list={{
+            "group-hover:opacity-0": caption
+        }}
+        class="img bg-muted pointer-events-none relative z-10 h-full w-full border-none object-cover transition-[scale,opacity] duration-300 outline-none group-hover:scale-110"
+    />
+    {
+        caption && (
+            <figcaption class="caption text-normal text-foreground-variant absolute top-0 left-0 h-full w-full content-center text-center">
+                {caption}
+            </figcaption>
+        )
+    }
+</figure>
+
+<script>
+    import { mount } from "@components/shared/Image/Lightbox";
+
+    const images = document.body.querySelectorAll<HTMLDivElement>(".image");
+
+    for (const image of images) {
+        const img = image.querySelector<HTMLImageElement>(".img")!.src;
+        const caption = image.querySelector<HTMLElement>(".caption")?.innerText;
+
+        const clickCallback = () => {
+            // Hide current lightbox
+            const lightbox = document.body.querySelector<HTMLDivElement>(".lightbox");
+
+            if (lightbox) {
+                document.body.removeChild(lightbox);
+                document.body.style.overflow = "";
+            }
+
+            // Mount lightbox
+            document.body.appendChild(mount({ url: img, caption }));
+            document.body.style.overflow = "hidden";
+        };
+
+        image.addEventListener("click", clickCallback);
+    }
+</script>
