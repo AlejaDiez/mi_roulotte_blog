@@ -1,0 +1,64 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+import ScrollToTop from "@components/shared/ScrollToTop.astro";
+import { drizzle } from "drizzle-orm/d1";
+import { TripsTable } from "@db/trips";
+import { and, eq } from "drizzle-orm";
+import { StagesTable } from "@db/stages";
+
+const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
+
+if (rest.length > 0) return Astro.redirect("/404");
+
+const db = drizzle(Astro.locals.runtime.env.DB);
+const query = stage
+    ? db
+          .select({
+              title: StagesTable.title,
+              description: StagesTable.description,
+              image: StagesTable.image,
+              content: StagesTable.content,
+              keywords: StagesTable.keywords
+          })
+          .from(StagesTable)
+          .where(
+              and(
+                  eq(StagesTable.id, stage),
+                  eq(StagesTable.tripId, trip),
+                  eq(StagesTable.published, true)
+              )
+          )
+    : db
+          .select({
+              title: TripsTable.title,
+              description: TripsTable.description,
+              image: TripsTable.image,
+              content: TripsTable.content,
+              keywords: TripsTable.keywords
+          })
+          .from(TripsTable)
+          .where(and(eq(TripsTable.id, trip), eq(TripsTable.published, true)));
+const data = (await query.get()) as Record<string, any> | undefined;
+
+if (!data) return await Astro.redirect("/404");
+---
+
+<Layout
+    title={data.title}
+    description={data.description}
+    image={data.image}
+    keywords={data.keywords}>
+    <Header />
+    <Main>
+        <div class="w-full overflow-x-auto">
+            <pre>
+                {JSON.stringify(data.content, null, 2)}
+            </pre>
+        </div>
+    </Main>
+    <Footer />
+    <ScrollToTop />
+</Layout>
