@@ -23,6 +23,7 @@
         "@astrojs/preact": "^4.1.1",
         "@tailwindcss/vite": "^4.1.13",
         "astro": "^5.13.10",
+        "drizzle-orm": "^0.44.5",
         "preact": "^10.27.2",
         "tailwindcss": "^4.1.13"
     },

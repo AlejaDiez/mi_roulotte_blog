@@ -6,6 +6,7 @@
         "types": ["node"],
         "paths": {
             "@components/*": ["./src/components/*"],
+            "@db/*": ["./src/db/*"],
             "@models/*": ["./src/models/*"],
             "@styles/*": ["./src/styles/*"]
         },
