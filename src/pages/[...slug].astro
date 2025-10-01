@@ -6,10 +6,11 @@ import Main from "@components/shared/Main.astro";
 import ScrollToTop from "@components/shared/ScrollToTop.astro";
 import { drizzle } from "drizzle-orm/d1";
 import { TripsTable } from "@db/trips";
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { StagesTable } from "@db/stages";
 import HeaderSection from "@components/modules/HeaderSection.astro";
 import ContentSection from "@components/modules/ContentSection.astro";
+import StageSection from "@components/modules/StageSection.astro";
 
 const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
 
@@ -50,6 +51,17 @@ const query = stage
 const data = (await query.get()) as Record<string, any> | undefined;
 
 if (!data) return await Astro.redirect("/404");
+
+// Get stages
+const stagesQuery = drizzle(Astro.locals.runtime.env.DB)
+    .select({
+        title: StagesTable.title,
+        image: StagesTable.image,
+        url: sql<string>`CONCAT('/', ${StagesTable.tripId}, '/', ${StagesTable.id})`
+    })
+    .from(StagesTable)
+    .where(and(eq(StagesTable.tripId, trip), eq(StagesTable.published, true)));
+const stagesData = await stagesQuery;
 ---
 
 <Layout
@@ -65,6 +77,7 @@ if (!data) return await Astro.redirect("/404");
             image={data.image}
         />
         <ContentSection content={data.content} />
+        <StageSection stages={stagesData} />
     </Main>
     <Footer />
     <ScrollToTop />
