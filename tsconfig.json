@@ -3,11 +3,13 @@
     "include": [".astro/types.d.ts", "**/*"],
     "exclude": ["node_modules", "build"],
     "compilerOptions": {
-        "types": ["node"],
+        "types": ["./worker-configuration.d.ts", "node", "youtube"],
         "paths": {
             "@components/*": ["./src/components/*"],
+            "@db/*": ["./src/db/*"],
             "@models/*": ["./src/models/*"],
-            "@styles/*": ["./src/styles/*"]
+            "@styles/*": ["./src/styles/*"],
+            "@utils/*": ["./src/utils/*"]
         },
         "jsx": "react-jsx",
         "jsxImportSource": "preact"

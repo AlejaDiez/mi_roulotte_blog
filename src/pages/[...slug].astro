@@ -1,0 +1,84 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+import ScrollToTop from "@components/shared/ScrollToTop.astro";
+import { drizzle } from "drizzle-orm/d1";
+import { TripsTable } from "@db/trips";
+import { and, eq, sql } from "drizzle-orm";
+import { StagesTable } from "@db/stages";
+import HeaderSection from "@components/modules/HeaderSection.astro";
+import ContentSection from "@components/modules/ContentSection.astro";
+import StageSection from "@components/modules/StageSection.astro";
+
+const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
+
+if (rest.length > 0) return Astro.redirect("/404");
+
+const query = stage
+    ? drizzle(Astro.locals.runtime.env.DB)
+          .select({
+              name: TripsTable.name,
+              date: TripsTable.date,
+              title: StagesTable.title,
+              description: StagesTable.description,
+              image: StagesTable.image,
+              content: StagesTable.content,
+              keywords: StagesTable.keywords
+          })
+          .from(StagesTable)
+          .innerJoin(TripsTable, eq(StagesTable.tripId, TripsTable.id))
+          .where(
+              and(
+                  eq(StagesTable.id, stage),
+                  eq(StagesTable.tripId, trip),
+                  eq(StagesTable.published, true)
+              )
+          )
+    : drizzle(Astro.locals.runtime.env.DB)
+          .select({
+              name: TripsTable.name,
+              date: TripsTable.date,
+              title: TripsTable.title,
+              description: TripsTable.description,
+              image: TripsTable.image,
+              content: TripsTable.content,
+              keywords: TripsTable.keywords
+          })
+          .from(TripsTable)
+          .where(and(eq(TripsTable.id, trip), eq(TripsTable.published, true)));
+const data = (await query.get()) as Record<string, any> | undefined;
+
+if (!data) return await Astro.redirect("/404");
+
+// Get stages
+const stagesQuery = drizzle(Astro.locals.runtime.env.DB)
+    .select({
+        title: StagesTable.title,
+        image: StagesTable.image,
+        url: sql<string>`CONCAT('/', ${StagesTable.tripId}, '/', ${StagesTable.id})`
+    })
+    .from(StagesTable)
+    .where(and(eq(StagesTable.tripId, trip), eq(StagesTable.published, true)));
+const stagesData = await stagesQuery;
+---
+
+<Layout
+    title={data.title}
+    description={data.description}
+    image={data.image}
+    keywords={data.keywords}>
+    <Header />
+    <Main>
+        <HeaderSection
+            title={data.title}
+            subtitle={`${data.name} ${data.date!.getFullYear()}`}
+            image={data.image}
+        />
+        <ContentSection content={data.content} />
+        <StageSection stages={stagesData} />
+    </Main>
+    <Footer />
+    <ScrollToTop />
+</Layout>
