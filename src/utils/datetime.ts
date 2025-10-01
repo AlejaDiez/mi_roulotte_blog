@@ -9,3 +9,14 @@ export const formatDuration = (duration: number): string => {
         ? `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
         : `${pad(minutes)}:${pad(seconds)}`;
 };
+
+export const tripDate = (date: Date) => {
+    let formatted = date.toLocaleDateString("es-ES", {
+        month: "long",
+        year: "numeric"
+    });
+
+    formatted = formatted.replace(" de ", " ");
+    formatted = formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    return formatted;
+};

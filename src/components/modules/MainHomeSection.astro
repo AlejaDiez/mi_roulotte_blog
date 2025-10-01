@@ -1,0 +1,78 @@
+<section
+    id="inicio"
+    class="max-md:bg-muted max-md:animate-clip-right md:**:animation-paused relative w-[calc(var(--space-x)+100%)] overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) max-md:px-(--space-x) max-md:py-8 md:h-screen md:w-screen md:snap-start">
+    <img
+        src="/assets/IMG_20200825_185010.webp"
+        alt="Ponta da Piedade"
+        class="absolute top-0 left-0 h-full w-full object-cover max-md:hidden"
+        decoding="async"
+    />
+    <h1
+        class="text-title max-md:!translate-0 md:absolute md:top-[26%] md:left-1/2 md:-translate-x-1/2 md:animate-[500ms_cubic-bezier(0.4,0,0.2,1)_backwards_float-top] md:text-[8vw] md:text-white">
+        Mi Roulotte
+    </h1>
+    <img
+        src="/assets/IMG_20200825_185010.webp"
+        alt="Ponta da Piedade"
+        style="mask-image: url('/assets/IMG_20200825_185010_MASK.webp')"
+        class="absolute top-0 left-0 h-full w-full mask-cover mask-center object-cover max-md:hidden"
+        decoding="async"
+    />
+    <div
+        class="absolute right-(--space-x) bottom-(--space-y) flex flex-row max-md:hidden md:animate-[500ms_cubic-bezier(0.4,0,0.2,1)_500ms_backwards_fade]">
+        <a
+            title="Instagram"
+            href="https://www.instagram.com/miroulotte/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100">
+            <i class="ibm-logo-instagram"></i>
+        </a>
+        <a
+            title="YouTube"
+            href="https://www.youtube.com/@miroulotte/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100">
+            <i class="ibm-logo-youtube"></i>
+        </a>
+    </div>
+</section>
+
+<script>
+    let ticking = false;
+    let desktop = false;
+    const section = document.body.querySelector<HTMLElement>("main > section#inicio")!;
+    const title = section.querySelector<HTMLHeadingElement>("h1")!;
+
+    // Scroll Listener
+    const scrollCallback = () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                if (section.getBoundingClientRect().bottom > 0) {
+                    const y = window.scrollY * 0.25;
+
+                    title.style.transform = `translateY(${y}px)`;
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    };
+
+    // Resize Listener
+    const resizeCallback = () => {
+        if (window.innerWidth >= 48 * 16 && !desktop) {
+            window.addEventListener("scroll", scrollCallback);
+            desktop = true;
+        } else if (window.innerWidth < 48 * 16 && desktop) {
+            title.style.transform = "";
+            window.removeEventListener("scroll", scrollCallback);
+            desktop = false;
+            ticking = false;
+        }
+    };
+
+    window.addEventListener("resize", resizeCallback);
+    resizeCallback();
+</script>

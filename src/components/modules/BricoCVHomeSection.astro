@@ -1,0 +1,90 @@
+---
+import Video from "@components/shared/Video.astro";
+
+const promise = fetch(
+    `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${"PLMZqxy7ks8derwsZceqoWvkNhZDsp8TF9"}&part=snippet&maxResults=50&key=${Astro.locals.runtime.env.YOUTUBE_TOKEN}`
+).then(async (res) => await res.json<any>());
+const data: string[] = (await promise)["items"].map(
+    ({ snippet }: any) => `https://www.youtube.com/watch?v=${snippet.resourceId.videoId}`
+);
+---
+
+<section
+    id="brico-cv"
+    class="md:**:animation-paused relative w-screen overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) md:h-screen md:snap-start">
+    <div
+        class="scroll scrollbar-hidden relative z-0 w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth md:h-full">
+        <div
+            class="videos flex w-max flex-row items-center justify-start gap-[calc(var(--space-x)*2)] px-(--space-x) md:h-full md:gap-[calc(var(--space)*4)] md:px-[calc(50vw-min(75vw,4/3*75vh)/2)]">
+            {
+                data.length > 0 ? (
+                    data.map((url, i) => (
+                        <Video
+                            {url}
+                            style={{
+                                "animation-delay": `${i * 75}ms`
+                            }}
+                            class="animate-clip-top !aspect-landscape !w-[calc(100vw-var(--space-x)*2)] snap-center md:!w-[min(75vw,calc(4/3*75vh))]"
+                        />
+                    ))
+                ) : (
+                    <div class="aspect-landscape animate-clip-top bg-muted h-auto w-[calc(100vw-var(--space-x)*2)] snap-center md:w-[min(75vw,calc(4/3*75vh))]" />
+                )
+            }
+        </div>
+    </div>
+    <button
+        class="prev button button-fill-primary animate-clip-right animation-delay-500 absolute top-1/2 left-(--space-x) z-10 -translate-y-1/2">
+        <i class="ibm-chevron-left"></i>
+    </button>
+    <button
+        class="next button button-fill-primary animate-clip-left animation-delay-500 absolute top-1/2 right-(--space-x) z-10 -translate-y-1/2">
+        <i class="ibm-chevron-right"></i>
+    </button>
+</section>
+
+<script>
+    const section = document.body.querySelector<HTMLElement>("main > section#brico-cv")!;
+    const container = section.querySelector<HTMLDivElement>(".scroll")!;
+    const videos = [...container.querySelectorAll<HTMLDivElement>(".video")];
+
+    // Click listener
+    const clickCallbackPrevVideo = () => {
+        const width = container.offsetWidth;
+        const scrollLeft = container.scrollLeft;
+        const prevVideo = videos.findLast(
+            ({ offsetLeft, offsetWidth }) =>
+                offsetLeft + offsetWidth / 2 - scrollLeft < width / 2 - 2
+        );
+
+        if (prevVideo) {
+            container.scrollTo({
+                left: prevVideo.offsetLeft - (width - prevVideo.offsetWidth) / 2,
+                behavior: "smooth"
+            });
+        }
+    };
+
+    const clickCallbackNextVideo = () => {
+        const width = container.offsetWidth;
+        const scrollLeft = container.scrollLeft;
+        const nextVideo = videos.find(
+            ({ offsetLeft, offsetWidth }) =>
+                offsetLeft + offsetWidth / 2 - scrollLeft > width / 2 + 2
+        );
+
+        if (nextVideo) {
+            container.scrollTo({
+                left: nextVideo.offsetLeft - (width - nextVideo.offsetWidth) / 2,
+                behavior: "smooth"
+            });
+        }
+    };
+
+    section
+        .querySelector<HTMLButtonElement>(".prev")!
+        .addEventListener("click", clickCallbackPrevVideo);
+    section
+        .querySelector<HTMLButtonElement>(".next")!
+        .addEventListener("click", clickCallbackNextVideo);
+</script>
