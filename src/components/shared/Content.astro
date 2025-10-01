@@ -1,0 +1,253 @@
+---
+import Image from "@components/shared/Image/Image.astro";
+import Video from "@components/shared/Video.astro";
+
+export interface Props {
+    content: any | any[];
+}
+
+const { content } = Astro.props as any;
+---
+
+{
+    () => {
+        if (Array.isArray(content)) {
+            return content.map((content) => <Astro.self {content} />);
+        }
+
+        const { type, style = {}, data = [], ...params } = content as any;
+
+        switch (type) {
+            case "heading":
+                return (
+                    <h3
+                        class="text-headline text-left"
+                        class:list={{
+                            [`align-${style.align}`]: !!style.align
+                        }}>
+                        <Astro.self content={data} />
+                    </h3>
+                );
+            case "paragraph":
+                return (
+                    <p
+                        class="text-normal text-justify"
+                        class:list={{
+                            [`align-${style.align}`]: !!style.align
+                        }}>
+                        <Astro.self content={data} />
+                    </p>
+                );
+            case "list":
+                return (
+                    <ul
+                        class="list-disc"
+                        class:list={{
+                            [`align-${style.align}`]: !!style.align
+                        }}>
+                        <Astro.self content={data} />
+                    </ul>
+                );
+            case "image":
+                return (
+                    <Image
+                        url={data.url}
+                        caption={data.caption}
+                        class:list={{
+                            [`aspect-ratio-${style["aspect-ratio"]}`]: !!style["aspect-ratio"],
+                            [`col-${style.cols}`]: !!style.cols,
+                            [`row-${style.rows}`]: !!style.rows
+                        }}
+                    />
+                );
+            case "video":
+                return (
+                    <Video
+                        url={data.url}
+                        title={data.title}
+                        thumbnail={data.thumbnail}
+                        class:list={{
+                            [`aspect-ratio-${style["aspect-ratio"]}`]: !!style["aspect-ratio"],
+                            [`col-${style.cols}`]: !!style.cols,
+                            [`row-${style.rows}`]: !!style.rows
+                        }}
+                    />
+                );
+            case "mosaic":
+                return (
+                    <div
+                        class="mosaic"
+                        class:list={{
+                            [`template-${style.template}`]: !!style.template
+                        }}>
+                        <Astro.self content={data} />
+                    </div>
+                );
+            default:
+                if (params.url) {
+                    return (
+                        <a
+                            href={params.url}
+                            target={params.self !== false ? "_self" : "_blank"}
+                            class="link"
+                            class:list={{
+                                bold: style.bold,
+                                italic: style.italic,
+                                underline: style.underline,
+                                strikethrough: style.strikethrough,
+                                [`color-${style.color}`]: !!style.color
+                            }}>
+                            {params.text}
+                        </a>
+                    );
+                } else if (params.item) {
+                    return (
+                        <li
+                            class="text-normal ml-8 text-left"
+                            class:list={{
+                                bold: style.bold,
+                                italic: style.italic,
+                                underline: style.underline,
+                                strikethrough: style.strikethrough,
+                                [`color-${style.color}`]: !!style.color
+                            }}>
+                            {params.item}
+                        </li>
+                    );
+                } else if (params.text && params.text.trim() === "/n") {
+                    return <br />;
+                } else if (params.text) {
+                    if (Object.keys(style).length > 0) {
+                        return (
+                            <span
+                                class:list={{
+                                    bold: style.bold,
+                                    italic: style.italic,
+                                    underline: style.underline,
+                                    strikethrough: style.strikethrough,
+                                    [`color-${style.color}`]: !!style.color
+                                }}>
+                                {params.text}
+                            </span>
+                        );
+                    }
+                    return params.text;
+                }
+        }
+    }
+}
+
+<style is:global>
+    .align-left {
+        text-align: left;
+    }
+
+    .align-center {
+        text-align: center;
+    }
+
+    .align-right {
+        text-align: right;
+    }
+
+    .align-justify {
+        text-align: justify;
+    }
+
+    .bold {
+        color: var(--color-foreground-variant);
+        font-weight: 600;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .underline {
+        text-decoration: underline;
+    }
+
+    .strikethrough {
+        text-decoration: line-through;
+    }
+
+    .underline.strikethrough {
+        text-decoration: underline line-through;
+    }
+
+    .color-red {
+        color: light-dark(var(--color-red-60), var(--color-red-50));
+    }
+
+    .color-orange {
+        color: light-dark(var(--color-orange-60), var(--color-orange-50));
+    }
+
+    .color-yellow {
+        color: light-dark(var(--color-yellow-60), var(--color-yellow-50));
+    }
+
+    .color-green {
+        color: light-dark(var(--color-green-60), var(--color-green-50));
+    }
+
+    .color-teal {
+        color: light-dark(var(--color-teal-60), var(--color-teal-50));
+    }
+
+    .color-cyan {
+        color: light-dark(var(--color-cyan-60), var(--color-cyan-50));
+    }
+
+    .color-blue {
+        color: light-dark(var(--color-blue-60), var(--color-blue-50));
+    }
+
+    .color-purple {
+        color: light-dark(var(--color-purple-60), var(--color-purple-50));
+    }
+
+    .color-magenta {
+        color: light-dark(var(--color-magenta-60), var(--color-magenta-50));
+    }
+
+    .color-gray {
+        color: light-dark(var(--color-gray-60), var(--color-gray-50));
+    }
+
+    .aspect-ratio-1\/1 {
+        aspect-ratio: 1/1;
+    }
+
+    .aspect-ratio-2\/3 {
+        aspect-ratio: 2/3;
+    }
+
+    .aspect-ratio-3\/2 {
+        aspect-ratio: 3/2;
+    }
+
+    .aspect-ratio-3\/4 {
+        aspect-ratio: 3/4;
+    }
+
+    .aspect-ratio-4\/3 {
+        aspect-ratio: 4/3;
+    }
+
+    .aspect-ratio-9\/16 {
+        aspect-ratio: 9/16;
+    }
+
+    .aspect-ratio-16\/9 {
+        aspect-ratio: 16/9;
+    }
+
+    .aspect-ratio-9\/21 {
+        aspect-ratio: 9/21;
+    }
+
+    .aspect-ratio-21\/9 {
+        aspect-ratio: 21/9;
+    }
+</style>

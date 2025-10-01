@@ -9,6 +9,7 @@ import { TripsTable } from "@db/trips";
 import { and, eq } from "drizzle-orm";
 import { StagesTable } from "@db/stages";
 import HeaderSection from "@components/modules/HeaderSection.astro";
+import ContentSection from "@components/modules/ContentSection.astro";
 
 const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
 
@@ -63,6 +64,7 @@ if (!data) return await Astro.redirect("/404");
             subtitle={`${data.name} ${data.date!.getFullYear()}`}
             image={data.image}
         />
+        <ContentSection content={data.content} />
     </Main>
     <Footer />
     <ScrollToTop />
