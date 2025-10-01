@@ -1,16 +1,279 @@
 ---
 import Layout from "@components/layouts/Layout.astro";
+import BricoCVHomeSection from "@components/modules/BricoCVHomeSection.astro";
+import MainHomeSection from "@components/modules/MainHomeSection.astro";
+import TripsHomeSection from "@components/modules/TripsHomeSection.astro";
 import Footer from "@components/shared/Footer.astro";
 import Header from "@components/shared/Header.astro";
 import Main from "@components/shared/Main.astro";
-import ScrollToTop from "@components/shared/ScrollToTop.astro";
 ---
 
-<Layout title="Mi Roulotte">
-    <Header />
-    <Main>
-        <h1>Mi Roulotte</h1>
+<Layout
+    title="Mi Roulotte"
+    description="Disfruta de los emocionantes viajes en familia que hemos realizado con nuestra caravana. Explora nuevos lugares, crea recuerdos inolvidables y vive la libertad en la carretera. ¡Nos vemos en la carretera!"
+    image=`${Astro.locals.runtime.env.SITE ?? import.meta.env.SITE}/icons/1024.png`
+    keywords={[
+        "mi roulotte",
+        "roulotte",
+        "camping",
+        "caravana",
+        "autocaravana",
+        "camper",
+        "tienda de campaña",
+        "viajes en familia",
+        "viajes en caravana",
+        "rutas en caravana",
+        "viajes en autocaravana",
+        "rutas en autocaravana",
+        "viajes en camper",
+        "rutas en camper",
+        "viajes en roulotte",
+        "rutas en roulotte",
+        "viajes por carretera",
+        "aventura al aire libre",
+        "destinos de viaje",
+        "naturaleza y viajes",
+        "experiencias de viaje",
+        "road trip",
+        "consejos de viaje",
+        "turismo rural",
+        "turismo sostenible",
+        "turismo de naturaleza",
+        "viajes económicos",
+        "naturaleza y aventura",
+        "equipamiento camping",
+        "consejos para acampar",
+        "europa",
+        "españa",
+        "portugal",
+        "francia",
+        "italia",
+        "alemania",
+        "suiza",
+        "belgica",
+        "holanda"
+    ]}>
+    <Header class="contrast transparent md:fixed" />
+    <Main class="md:gap-0 md:px-0">
+        <MainHomeSection />
+        <TripsHomeSection />
+        <BricoCVHomeSection />
     </Main>
-    <Footer />
-    <ScrollToTop />
+    <Footer class="md:hidden" />
 </Layout>
+
+<style is:global>
+    #viajes > .subtitle {
+        > span {
+            transition-delay: 250ms;
+            transition-duration: 300ms, 500ms;
+            transition-property: opacity, translate;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        > span:not(.selected) {
+            opacity: 0;
+        }
+
+        > span.selected ~ span:not(:only-of-type),
+        &:has(> span:last-of-type.selected) > span:not(:only-of-type):first-of-type {
+            translate: 0 -1rem;
+        }
+
+        > span:has(~ span.selected):not(:only-of-type),
+        &:has(> span:first-of-type.selected) > span:not(:only-of-type):last-of-type {
+            translate: 0 0.5rem;
+        }
+    }
+
+    #viajes > .title {
+        > span {
+            transition-delay: 300ms;
+            transition-duration: 300ms;
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        > h1 {
+            transition-delay: 300ms;
+            transition-duration: 300ms, 500ms;
+            transition-property: opacity, translate;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        > span:not(.selected),
+        > h1:not(.selected) {
+            opacity: 0;
+        }
+
+        > h1.selected ~ h1:not(:only-of-type),
+        &:has(> h1:last-of-type.selected) > h1:not(:only-of-type):first-of-type {
+            translate: -1rem 0;
+        }
+
+        > h1:has(~ h1.selected):not(:only-of-type),
+        &:has(> h1:first-of-type.selected) > h1:not(:only-of-type):last-of-type {
+            translate: 0.5rem 0;
+        }
+    }
+
+    #viajes > .hero-image {
+        > div {
+            transition-duration: 500ms;
+            transition-property: clip-path;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        > div.selected {
+            clip-path: inset(0 0 0 0);
+            transition-delay: 300ms;
+        }
+
+        > div.selected ~ div:not(:only-of-type),
+        &:has(> div:last-of-type.selected) > div:not(:only-of-type):first-of-type {
+            clip-path: inset(0 0 100% 0);
+        }
+
+        > div:has(~ div.selected):not(:only-of-type),
+        &:has(> div:first-of-type.selected) > div:not(:only-of-type):last-of-type {
+            clip-path: inset(100% 0 0 0);
+        }
+    }
+
+    #viajes > .content {
+        > div {
+            transition-duration: 300ms;
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        > div.selected {
+            transition-delay: 300ms;
+        }
+
+        > div:not(.selected) {
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    @media (width >= 48rem /* 768px */) {
+        html {
+            scroll-snap-type: y mandatory;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        .header.transparent {
+            background-color: transparent;
+        }
+
+        .header.contrast {
+            .mi-roulotte-icon {
+                svg {
+                    fill: var(--color-white);
+                }
+
+                &:hover svg {
+                    fill: var(--color-white-hover);
+                }
+            }
+
+            .menu > nav {
+                & > .button-primary,
+                & > .sub-menu > .button-primary {
+                    color: var(--color-white);
+
+                    &:hover {
+                        color: var(--color-white-hover);
+                    }
+                }
+
+                & > .button-muted,
+                & > .sub-menu > .button-muted {
+                    color: rgba(255, 255, 255, 0.6);
+
+                    &:hover {
+                        color: rgba(241, 241, 241, 0.6);
+                    }
+                }
+            }
+        }
+    }
+</style>
+
+<script>
+    let desktop = false;
+    const header = document.body.querySelector(".header")!;
+    const sections = {
+        main: document.body.querySelector<HTMLElement>("main > section#inicio")!,
+        trips: document.body.querySelector<HTMLElement>("main > section#viajes")!,
+        bricoCV: document.body.querySelector<HTMLElement>("main > section#brico-cv")!
+    };
+
+    // Intersection Observer
+    const intersectionCallback = ([entry]: IntersectionObserverEntry[]) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.remove("md:**:animation-paused");
+            history.replaceState(null, "", `#${entry.target.id}`);
+            window.dispatchEvent(new Event("hashchange"));
+        }
+    };
+
+    const backgroundIntersectionObserver = new IntersectionObserver(
+        ([entry]: IntersectionObserverEntry[]) => {
+            if (entry.isIntersecting) {
+                header.classList.add("transparent");
+            } else {
+                header.classList.remove("transparent");
+            }
+        }
+    );
+    const colorIntersectionObserver = new IntersectionObserver(
+        ([entry]: IntersectionObserverEntry[]) => {
+            if (entry.isIntersecting) {
+                header.classList.add("contrast");
+            } else {
+                header.classList.remove("contrast");
+            }
+        },
+        { rootMargin: "-40px" }
+    );
+    const mainIntersectionObserver = new IntersectionObserver(intersectionCallback, {
+        threshold: 0.5
+    });
+    const tripsIntersectionObserver = new IntersectionObserver(intersectionCallback, {
+        threshold: 0.5
+    });
+    const bricoCVIntersectionObserver = new IntersectionObserver(intersectionCallback, {
+        threshold: 0.5
+    });
+
+    // Resize listener
+    const resizeCallback = () => {
+        if (window.innerWidth >= 48 * 16 && !desktop) {
+            backgroundIntersectionObserver.observe(sections.main);
+            colorIntersectionObserver.observe(sections.main);
+            mainIntersectionObserver.observe(sections.main);
+            tripsIntersectionObserver.observe(sections.trips);
+            bricoCVIntersectionObserver.observe(sections.bricoCV);
+            desktop = true;
+        } else if (window.innerWidth < 48 * 16 && desktop) {
+            backgroundIntersectionObserver.disconnect();
+            colorIntersectionObserver.disconnect();
+            header.classList.remove("transparent", "contrast");
+            mainIntersectionObserver.disconnect();
+            tripsIntersectionObserver.disconnect();
+            bricoCVIntersectionObserver.disconnect();
+            desktop = false;
+        }
+    };
+
+    window.addEventListener("resize", resizeCallback);
+    resizeCallback();
+</script>
