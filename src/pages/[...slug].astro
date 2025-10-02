@@ -6,7 +6,7 @@ import Main from "@components/shared/Main.astro";
 import ScrollToTop from "@components/shared/ScrollToTop.astro";
 import { drizzle } from "drizzle-orm/d1";
 import { TripsTable } from "@db/trips";
-import { and, eq, sql } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { StagesTable } from "@db/stages";
 import HeaderSection from "@components/modules/HeaderSection.astro";
 import ContentSection from "@components/modules/ContentSection.astro";
@@ -60,7 +60,8 @@ const stagesQuery = drizzle(Astro.locals.runtime.env.DB)
         url: sql<string>`CONCAT('/', ${StagesTable.tripId}, '/', ${StagesTable.id})`
     })
     .from(StagesTable)
-    .where(and(eq(StagesTable.tripId, trip), eq(StagesTable.published, true)));
+    .where(and(eq(StagesTable.tripId, trip), eq(StagesTable.published, true)))
+    .orderBy(asc(StagesTable.date));
 const stagesData = await stagesQuery;
 ---
 
