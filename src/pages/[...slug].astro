@@ -1,16 +1,16 @@
 ---
 import Layout from "@components/layouts/Layout.astro";
+import ContentSection from "@components/modules/ContentSection.astro";
+import HeaderSection from "@components/modules/HeaderSection.astro";
+import StageSection from "@components/modules/StageSection.astro";
 import Footer from "@components/shared/Footer.astro";
 import Header from "@components/shared/Header.astro";
 import Main from "@components/shared/Main.astro";
 import ScrollToTop from "@components/shared/ScrollToTop.astro";
-import { drizzle } from "drizzle-orm/d1";
+import { StagesTable } from "@db/stages";
 import { TripsTable } from "@db/trips";
 import { and, asc, eq, sql } from "drizzle-orm";
-import { StagesTable } from "@db/stages";
-import HeaderSection from "@components/modules/HeaderSection.astro";
-import ContentSection from "@components/modules/ContentSection.astro";
-import StageSection from "@components/modules/StageSection.astro";
+import { drizzle } from "drizzle-orm/d1";
 
 const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
 

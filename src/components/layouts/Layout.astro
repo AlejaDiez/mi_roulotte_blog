@@ -24,7 +24,10 @@ const author: string = "Alejandro Diez Bermejo";
         <meta name="author" content={author} />
         <link
             rel="canonical"
-            href={new URL(Astro.url.pathname, `https://${Astro.locals.runtime.env.HOST}`)}
+            href={new URL(
+                Astro.url.pathname,
+                Astro.locals.runtime.env.HOST ?? import.meta.env.SITE
+            )}
         />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="mi-roulotte" href="/apple-touch-icon.png" />
