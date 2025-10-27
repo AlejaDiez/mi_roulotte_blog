@@ -11,7 +11,10 @@ export default defineConfig({
     adapter: cloudflare({
         platformProxy: {
             enabled: true,
-            configPath: "./wrangler.jsonc"
+            configPath: "./wrangler.jsonc",
+            persist: {
+                path: "../mi_roulotte_api/.wrangler/state/v3"
+            }
         }
     }),
     integrations: [preact()],

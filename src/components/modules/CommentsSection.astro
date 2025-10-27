@@ -1,0 +1,284 @@
+---
+import type { BaseProps } from "@models/props";
+import Comment from "@components/shared/Comments/Comment";
+import Reply from "@components/shared/Comments/Reply";
+
+export interface Props extends BaseProps {
+    content: object[];
+}
+
+const { content, id, style, class: cls } = Astro.props;
+const [trip, stage] = Astro.params["slug"]!.split("/");
+const messages: string[] = [
+    "¿Aventuras divertidas en carretera? ¡Cuéntanos todo!",
+    "¡No guardes tus risas para ti! Comparte tus travesuras sobre ruedas.",
+    "¡Estamos ansiosos por leer tus travesías en caravana! ¡Adelante, escribe tu rollo!",
+    "¡No nos dejes con la intriga! ¡Comparte tus momentos épicos sobre ruedas!",
+    "¡Toca la bocina y suelta tu imaginación! ¡Queremos escuchar tus relatos en caravana!",
+    "¡Atrévete a dejar tu marca en el asfalto con tus historias sobre ruedas!",
+    "¿Vivencias graciosas o momentos ocurrentes? ¡Compártelos con la comunidad viajera!",
+    "¡Despliega tus teclas y acelera tus historias sobre ruedas!",
+    "¿Listo para desatar tu espíritu viajero? ¡Cuéntanos qué tal te va por la ruta! "
+];
+---
+
+<section
+    {id}
+    {style}
+    class:list={cls}
+    class="comments-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start">
+    <h3 class="comments-count text-headline mb-(--space)">
+        {
+            content.length === 0
+                ? "Ningún comentario"
+                : content.length === 1
+                  ? "1 comentario"
+                  : `${content.length} comentarios`
+        }
+    </h3>
+    {
+        content.length > 0 && (
+            <div class="comments-list my-[calc(var(--space)*2)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]">
+                {content.map(({ id, username, lastUpdatedAt, content, replies }: any) => (
+                    <Comment {id} {username} {lastUpdatedAt} {content}>
+                        {replies.map(({ id, username, lastUpdatedAt, content }: any) => (
+                            <Reply {id} {username} {lastUpdatedAt} {content} />
+                        ))}
+                    </Comment>
+                ))}
+            </div>
+        )
+    }
+    <form
+        action=`${Astro.locals.runtime.env.API_HOST}/comments`
+        class="comments-form mt-[calc(var(--space)*4)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*2)]">
+        <input type="hidden" name="tripId" value={trip} readonly />
+        <input type="hidden" name="stageId" value={stage} readonly />
+        <label>
+            Comentario
+            <textarea
+                name="content"
+                placeholder={messages[Math.floor(Math.random() * messages.length)]}
+                class="input field-sizing-content min-h-56"></textarea>
+        </label>
+        <label class="max-w-xl">
+            Nombre
+            <input name="username" type="text" class="input" />
+        </label>
+        <label class="max-w-xl">
+            Correo electrónico
+            <input name="email" type="text" class="input" />
+        </label>
+        <label class="mt-[calc(var(--space)*2)]">
+            <input name="notify" type="checkbox" class="checkbox" checked />
+            Deseo recibir notificaciones por correo electrónico si alguien responde a mi comentario.
+        </label>
+        <label class="mb-[calc(var(--space)*4)]">
+            <input name="acceptPrivacy" type="checkbox" class="checkbox" />
+            <span>
+                He leído y acepto la <a
+                    href="/politica-privacidad"
+                    target="_blank"
+                    class="underline">política de privacidad</a
+                >.
+            </span>
+        </label>
+        <input
+            class="submit-comment button button-outline-primary self-end"
+            type="submit"
+            value="Enviar comentario"
+        />
+    </form>
+</section>
+
+<script>
+    import { mount as mountComment, MountReplyBanner } from "@components/shared/Comments/Comment";
+    import { mount as mountReply } from "@components/shared/Comments/Reply";
+
+    const counter = document.body.querySelector<HTMLHeadingElement>(".comments-count")!;
+    let commentsList = document.body.querySelector<HTMLDivElement>(".comments-list");
+    const form = document.body.querySelector<HTMLFormElement>(".comments-form")!;
+    const fields = {
+        tripId: form.querySelector<HTMLInputElement>('input[name="tripId"]')!,
+        stageId: form.querySelector<HTMLInputElement>('input[name="stageId"]')!,
+        username: form.querySelector<HTMLInputElement>('input[name="username"]')!,
+        email: form.querySelector<HTMLInputElement>('input[name="email"]')!,
+        content: form.querySelector<HTMLInputElement>('textarea[name="content"]')!,
+        notify: form.querySelector<HTMLInputElement>('input[name="notify"]')!,
+        acceptPrivacy: form.querySelector<HTMLInputElement>('input[name="acceptPrivacy"]')!
+    };
+    const submitButton = form.querySelector<HTMLInputElement>('input[type="submit"]')!;
+
+    // Comments reply
+    for (const comment of commentsList?.children ?? []) {
+        const header = comment.querySelector("& > .comment-header")!;
+        const button = header.appendChild(document.createElement("button"));
+
+        button.innerHTML = '<i class="ibm-reply text-sm"></i>';
+        button.title = "Responder";
+        button.classList.add(
+            "reply",
+            "button",
+            "button-fill-accent",
+            "absolute",
+            "top-2",
+            "right-2",
+            "h-8",
+            "min-h-0",
+            "w-8",
+            "min-w-0",
+            "p-0",
+            "transition-[opacity,background-color]",
+            "group-hover:opacity-100",
+            "md:opacity-0"
+        );
+        button.onclick = () =>
+            MountReplyBanner(comment.id, header.querySelector("& > strong")!.textContent);
+    }
+
+    // Form validation
+    const touched = new WeakMap<HTMLElement, boolean>();
+    const rules: Record<string, (field: HTMLInputElement) => string | true> = {
+        username: (f) => (f.value.trim().length > 0 ? true : "El nombre es obligatorio"),
+        content: (f) => (f.value.trim().length > 0 ? true : "El comentario es obligatorio"),
+        email: (f) => {
+            if (!fields.notify.checked) return true; // no se exige si notify está desactivado
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(f.value.trim())
+                ? true
+                : "Es necesario un correo electrónico válido para recibir las notificaciones";
+        }
+    };
+
+    const validateField = (field: HTMLInputElement) => {
+        const isCheckbox = field.type === "checkbox";
+        const value: any = isCheckbox ? field.checked : field.value.trim();
+
+        clearError(field);
+        if (!touched.get(field) && !isCheckbox) return;
+        if (field === fields.notify) {
+            fields.email.disabled = !value;
+            if (!value) clearError(fields.email);
+            validateField(fields.email);
+            return;
+        }
+        if (field === fields.acceptPrivacy) {
+            submitButton.disabled = !field.checked;
+            return;
+        }
+        if (rules[field.name]) {
+            const res = rules[field.name](field);
+
+            if (res !== true) setError(field, res as string);
+        }
+    };
+
+    const setError = (field: HTMLInputElement, message: string) => {
+        field.setCustomValidity(" ");
+        if (field.parentElement instanceof HTMLLabelElement) {
+            field.parentElement.setAttribute("data-error", message);
+        }
+        field.reportValidity();
+    };
+
+    const clearError = (field: HTMLInputElement) => {
+        field.setCustomValidity("");
+        if (field.parentElement instanceof HTMLLabelElement) {
+            field.parentElement.removeAttribute("data-error");
+        }
+        field.reportValidity();
+    };
+
+    const reset = () => {
+        form.querySelector("& > .reply-banner")?.remove();
+        form.reset();
+        fields.email.disabled = false;
+        submitButton.disabled = true;
+    };
+
+    const blurCallback = (e: FocusEvent) => {
+        const element: any = e.currentTarget;
+
+        touched.set(element, true);
+        validateField(element);
+    };
+
+    const inputCallback = (e: Event) => {
+        const element: any = e.currentTarget;
+
+        validateField(element);
+    };
+
+    for (const field of Object.values(fields)) {
+        touched.set(field, false);
+        field.addEventListener("blur", blurCallback);
+        field.addEventListener("input", inputCallback);
+    }
+
+    // Form submit
+    const submitCallback = (e: SubmitEvent) => {
+        e.preventDefault();
+        for (const field of Object.values(fields)) {
+            if (typeof field === "object") {
+                touched.set(field, true);
+                validateField(field);
+            }
+        }
+        if (form.checkValidity()) {
+            submitButton.disabled = true;
+            submit(Object.fromEntries(new FormData(form)));
+        }
+    };
+
+    submitButton.disabled = true;
+    form.addEventListener("submit", submitCallback);
+
+    // Form submit
+    async function submit(data: any) {
+        const res = await fetch(form.action.concat(data.repliedTo ? `/${data.repliedTo}` : ""), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if (res.status !== 201) {
+            alert(
+                "No hemos podido publicar tu comentario. Por favor, vuelve a intentarlo más tarde."
+            );
+            submitButton.disabled = false;
+        } else {
+            // Reset form
+            reset();
+            // Add comment to ui
+            if (data.repliedTo) {
+                const parentComment = commentsList!.querySelector<HTMLDivElement>(
+                    `#${CSS.escape(data.repliedTo)}`
+                );
+                const repliesList =
+                    parentComment?.querySelector<HTMLDivElement>(".comment-replies");
+
+                repliesList?.insertBefore(mountReply(data), repliesList.firstChild);
+            } else {
+                if (!commentsList) {
+                    commentsList = document.body
+                        .querySelector(".comments-section")!
+                        .insertBefore(document.createElement("div"), form);
+                    commentsList.classList.add(
+                        "comments-list",
+                        "my-[calc(var(--space)*2)]",
+                        "flex",
+                        "w-full",
+                        "flex-col",
+                        "items-start",
+                        "justify-start",
+                        "gap-[calc(var(--space)*4)]"
+                    );
+                }
+                commentsList.insertBefore(mountComment(data), commentsList.firstChild);
+                counter.innerText =
+                    commentsList.children.length === 1
+                        ? "1 comentario"
+                        : `${commentsList.children.length} comentarios`;
+            }
+        }
+    }
+</script>

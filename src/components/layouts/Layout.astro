@@ -53,7 +53,14 @@ const author: string = "Alejandro Diez Bermejo";
         <meta property="og:site_name" content={name} />
         <meta property="og:title" content={title === name ? name : `${title} | ${name}`} />
         {description && <meta property="og:description" content={description} />}
-        {image && <meta property="og:image" content={image} />}
+        {
+            image && (
+                <meta
+                    property="og:image"
+                    content={new URL(image, Astro.locals.runtime.env.CDN_HOST)}
+                />
+            )
+        }
         {image && <meta property="og:image:alt" content={title} />}
         <meta name="color-scheme" content="light dark" />
         <script>
