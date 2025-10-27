@@ -22,7 +22,13 @@ const author: string = "Alejandro Diez Bermejo";
         <title>{title === name ? name : `${title} | ${name}`}</title>
         {description && <meta name="description" content={description} />}
         <meta name="author" content={author} />
-        <link rel="canonical" href={new URL(Astro.url.pathname, Astro.locals.runtime.env.HOST)} />
+        <link
+            rel="canonical"
+            href={new URL(
+                Astro.url.pathname,
+                Astro.locals.runtime.env.HOST ?? import.meta.env.SITE
+            )}
+        />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="mi-roulotte" href="/apple-touch-icon.png" />
         <link rel="mi-roulotte" sizes="180x180" href="/apple-touch-icon-precomposed.png" />

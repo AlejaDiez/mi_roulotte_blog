@@ -16,7 +16,7 @@
         "build": "astro build",
         "preview": "astro build && dotenv -- wrangler dev --port 3000",
         "deploy": "astro build && wrangler deploy",
-        "cf-typegen": "dotenv -- wrangler types"
+        "cf-typegen": "dotenv -- wrangler types --env-interface=Bindings"
     },
     "dependencies": {
         "@astrojs/cloudflare": "^12.6.9",

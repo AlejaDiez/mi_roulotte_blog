@@ -1,8 +1,8 @@
 ---
 import { TripsTable } from "@db/trips";
-import { drizzle } from "drizzle-orm/d1";
-import { desc, eq, sql } from "drizzle-orm";
 import { tripDate } from "@utils/datetime";
+import { desc, eq, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
 
 const query = drizzle(Astro.locals.runtime.env.DB)
     .select({
