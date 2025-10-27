@@ -6,11 +6,13 @@ import Main from "@components/shared/Main.astro";
 import ScrollToTop from "@components/shared/ScrollToTop.astro";
 import { drizzle } from "drizzle-orm/d1";
 import { TripsTable } from "@db/trips";
-import { and, asc, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
 import { StagesTable } from "@db/stages";
 import HeaderSection from "@components/modules/HeaderSection.astro";
 import ContentSection from "@components/modules/ContentSection.astro";
 import StageSection from "@components/modules/StageSection.astro";
+import { CommentsTable } from "@db/comments";
+import CommentsSection from "@components/modules/CommentsSection.astro";
 
 const [trip, stage, ...rest] = Astro.params["slug"]!.split("/");
 
@@ -25,7 +27,8 @@ const query = stage
               description: StagesTable.description,
               image: StagesTable.image,
               content: StagesTable.content,
-              keywords: StagesTable.keywords
+              keywords: StagesTable.keywords,
+              allowComments: StagesTable.allowComments
           })
           .from(StagesTable)
           .innerJoin(TripsTable, eq(StagesTable.tripId, TripsTable.id))
@@ -44,7 +47,8 @@ const query = stage
               description: TripsTable.description,
               image: TripsTable.image,
               content: TripsTable.content,
-              keywords: TripsTable.keywords
+              keywords: TripsTable.keywords,
+              allowComments: TripsTable.allowComments
           })
           .from(TripsTable)
           .where(and(eq(TripsTable.id, trip), eq(TripsTable.published, true)));
@@ -63,6 +67,44 @@ const stagesQuery = drizzle(Astro.locals.runtime.env.DB)
     .where(and(eq(StagesTable.tripId, trip), eq(StagesTable.published, true)))
     .orderBy(asc(StagesTable.date));
 const stagesData = await stagesQuery;
+
+// Get comments
+const commentsQuery = data.allowComments
+    ? drizzle(Astro.locals.runtime.env.DB)
+          .select({
+              id: CommentsTable.id,
+              username: CommentsTable.username,
+              content: CommentsTable.content,
+              repliedTo: CommentsTable.repliedTo,
+              lastUpdatedAt:
+                  sql`COALESCE(${CommentsTable.updatedAt}, ${CommentsTable.createdAt})`.mapWith(
+                      CommentsTable.createdAt
+                  )
+          })
+          .from(CommentsTable)
+          .where(
+              and(
+                  eq(CommentsTable.tripId, trip),
+                  stage ? eq(CommentsTable.stageId, stage) : isNull(CommentsTable.stageId)
+              )
+          )
+          .orderBy(desc(sql`COALESCE(${CommentsTable.updatedAt}, ${CommentsTable.createdAt})`))
+    : undefined;
+const commentsData = await commentsQuery?.then((comments: any[]) => {
+    const map = new Map(comments.map((c) => [c.id, { ...c, replies: [] }]));
+
+    return comments.reduce<any[]>((acc, comment) => {
+        let { id, repliedTo, ...rest } = map.get(comment.id);
+        const parent = repliedTo ? map.get(repliedTo) : null;
+
+        if (parent) {
+            parent.replies?.push({ id, ...rest });
+        } else {
+            acc.push({ id, ...rest });
+        }
+        return acc;
+    }, []);
+});
 ---
 
 <Layout
@@ -78,6 +120,7 @@ const stagesData = await stagesQuery;
             image={data.image}
         />
         <ContentSection content={data.content} />
+        {commentsData && <CommentsSection content={commentsData} />}
         <StageSection stages={stagesData} />
     </Main>
     <Footer />

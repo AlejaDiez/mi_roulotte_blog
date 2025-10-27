@@ -23,7 +23,7 @@ export const prerender = true;
                 personales de los usuarios del sitio web <strong class="font-semibold"
                     >Mi Roulotte</strong
                 >, disponible en <a href="/" target="_blank" class="underline"
-                    >{Astro.locals.runtime.env.SITE ?? import.meta.env.SITE}</a
+                    >{import.meta.env.SITE}</a
                 > (en adelante, "la Web").
             </p>
             <article class="flex flex-col items-start justify-start">

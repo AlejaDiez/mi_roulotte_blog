@@ -22,10 +22,7 @@ const author: string = "Alejandro Diez Bermejo";
         <title>{title === name ? name : `${title} | ${name}`}</title>
         {description && <meta name="description" content={description} />}
         <meta name="author" content={author} />
-        <link
-            rel="canonical"
-            href={new URL(Astro.url.pathname, `https://${Astro.locals.runtime.env.HOST}`)}
-        />
+        <link rel="canonical" href={new URL(Astro.url.pathname, Astro.locals.runtime.env.HOST)} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="mi-roulotte" href="/apple-touch-icon.png" />
         <link rel="mi-roulotte" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
@@ -50,7 +47,14 @@ const author: string = "Alejandro Diez Bermejo";
         <meta property="og:site_name" content={name} />
         <meta property="og:title" content={title === name ? name : `${title} | ${name}`} />
         {description && <meta property="og:description" content={description} />}
-        {image && <meta property="og:image" content={image} />}
+        {
+            image && (
+                <meta
+                    property="og:image"
+                    content={new URL(image, Astro.locals.runtime.env.CDN_HOST)}
+                />
+            )
+        }
         {image && <meta property="og:image:alt" content={title} />}
         <meta name="color-scheme" content="light dark" />
         <script>
