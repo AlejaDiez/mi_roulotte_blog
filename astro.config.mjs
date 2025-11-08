@@ -24,7 +24,8 @@ export default defineConfig({
     vite: {
         build: {
             cssMinify: true,
-            minify: true
+            minify: true,
+            sourcemap: false
         },
         css: { transformer: "lightningcss" },
         plugins: [tailwindcss()]

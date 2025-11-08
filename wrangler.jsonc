@@ -19,6 +19,7 @@
         }
     ],
     "vars": {
+        "ENVIRONMENT": "production",
         "API_HOST": "https://api.miroulotte.es",
         "CDN_HOST": "https://cdn.miroulotte.es",
         "HOST": "https://miroulotte.es",
@@ -28,10 +29,6 @@
         {
             "pattern": "miroulotte.es",
             "custom_domain": true
-        },
-        {
-            "pattern": "miroulotte.es/*",
-            "zone_name": "miroulotte.es"
         }
     ]
 }
