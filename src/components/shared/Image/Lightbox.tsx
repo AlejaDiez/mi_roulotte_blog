@@ -14,7 +14,11 @@ const Component = ({ url, caption }: Props) => {
     };
 
     return (
-        <div className="lightbox bg-background fixed top-0 left-0 z-[90] flex h-full w-full cursor-default flex-col items-center justify-center gap-2 overflow-hidden p-(--space-y) select-none">
+        <div
+            role="dialog"
+            className="lightbox bg-background fixed top-0 left-0 z-[90] flex h-full w-full cursor-default flex-col items-center justify-center gap-2 overflow-hidden p-(--space-y) select-none"
+            aria-modal="true"
+            aria-describedby="lightbox-caption">
             <div className="animate-clip-bottom animation-delay-500 block w-full content-center overflow-hidden">
                 <img
                     src={url}
@@ -24,14 +28,17 @@ const Component = ({ url, caption }: Props) => {
                 />
             </div>
             {caption && (
-                <span className="caption text-normal text-foreground-variant animate-fade animation-delay-[375ms] text-center">
+                <span
+                    id="lightbox-caption"
+                    className="caption text-normal text-foreground-variant animate-fade animation-delay-[375ms] text-center">
                     {caption}
                 </span>
             )}
             <button
                 onClick={clickCallback}
-                className="button button-fill-primary animate-clip-left absolute top-3 right-3">
-                <i className="ibm-close"></i>
+                className="button button-fill-primary animate-clip-left absolute top-3 right-3"
+                aria-label="Cerrar imagen ampliada">
+                <i className="ibm-close" aria-hidden="true"></i>
             </button>
         </div>
     );

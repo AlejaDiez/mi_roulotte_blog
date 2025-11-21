@@ -21,7 +21,9 @@ const data = await query;
 
 <section
     id="viajes"
-    class="max-md:aspect-portrait md:**:animation-paused relative w-full overflow-hidden select-none max-md:scroll-mt-(--space-y) md:h-screen md:w-screen md:snap-start">
+    role="region"
+    class="max-md:aspect-portrait md:**:animation-paused relative w-full overflow-hidden select-none max-md:scroll-mt-(--space-y) md:h-screen md:w-screen md:snap-start"
+    aria-label="Sección de viajes de Mi Roulotte">
     <div
         class="subtitle animate-clip-left md:animate-clip-top bg-primary absolute top-0 z-10 flex h-(--space-y) w-(--space-y) items-center justify-center overflow-hidden max-md:left-0 md:top-(--space-y) md:right-[calc(var(--space-overflow)+50%)]">
         {
@@ -54,7 +56,8 @@ const data = await query;
         }
     </div>
     <div
-        class="content animation-delay-[375ms] animate-fade absolute bottom-0 left-0 h-14 w-[calc(100%-3.5rem-4*var(--space))] overflow-hidden md:bottom-(--space-y) md:left-(--space-x) md:h-[calc(100%-var(--space-y)*3-var(--spacing)*64-var(--space-between))] md:w-[calc(50%-var(--space-x)-var(--space-overflow)-var(--space-y))]">
+        class="content animation-delay-[375ms] animate-fade absolute bottom-0 left-0 h-14 w-[calc(100%-3.5rem-4*var(--space))] overflow-hidden md:bottom-(--space-y) md:left-(--space-x) md:h-[calc(100%-var(--space-y)*3-var(--spacing)*64-var(--space-between))] md:w-[calc(50%-var(--space-x)-var(--space-overflow)-var(--space-y))]"
+        aria-live="polite">
         {
             data?.map(({ description, url, video }, i) => (
                 <div
@@ -69,7 +72,7 @@ const data = await query;
                         </a>
                         {video && (
                             <a href={video} target="_blank" class="button button-fill-primary">
-                                <i class="ibm-video" />
+                                <i class="ibm-video" aria-hidden="true" />
                             </a>
                         )}
                     </div>
@@ -95,12 +98,14 @@ const data = await query;
     <div
         class="controls animation-delay-[375ms] animate-fade md:animate-clip-left md:animation-delay-1000 absolute right-0 bottom-0 z-10 flex flex-row items-center justify-end md:right-(--space-x) md:bottom-(--space-y)">
         <button
-            class="prev button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground max-md:hidden">
-            <i class="ibm-chevron-left"></i>
+            class="prev button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground max-md:hidden"
+            aria-label="Viaje anterior">
+            <i class="ibm-chevron-left" aria-hidden="true"></i>
         </button>
         <button
-            class="next button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground">
-            <i class="ibm-chevron-right"></i>
+            class="next button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground"
+            aria-label="Siguiente anterior">
+            <i class="ibm-chevron-right" aria-hidden="true"></i>
         </button>
     </div>
 </section>

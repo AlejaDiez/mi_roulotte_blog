@@ -24,9 +24,11 @@ const messages: string[] = [
 
 <section
     {id}
+    role="form"
     {style}
     class:list={cls}
-    class="comments-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start">
+    class="comments-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start"
+    aria-label="Sección de comentarios">
     <h3 class="comments-count text-headline mb-(--space)">
         {
             content.length === 0
@@ -38,7 +40,9 @@ const messages: string[] = [
     </h3>
     {
         content.length > 0 && (
-            <div class="comments-list my-[calc(var(--space)*2)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]">
+            <div
+                role="list"
+                class="comments-list my-[calc(var(--space)*2)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]">
                 {content.map(({ id, username, lastUpdatedAt, content, replies }: any) => (
                     <Comment {id} {username} {lastUpdatedAt} {content}>
                         {replies.map(({ id, username, lastUpdatedAt, content }: any) => (
@@ -59,11 +63,12 @@ const messages: string[] = [
             <textarea
                 name="content"
                 placeholder={messages[Math.floor(Math.random() * messages.length)]}
-                class="input field-sizing-content min-h-56"></textarea>
+                class="input field-sizing-content min-h-56"
+                aria-required="true"></textarea>
         </label>
         <label class="max-w-xl">
             Nombre
-            <input name="username" type="text" class="input" />
+            <input name="username" type="text" class="input" aria-required="true" />
         </label>
         <label class="max-w-xl">
             Correo electrónico
@@ -74,7 +79,7 @@ const messages: string[] = [
             Deseo recibir notificaciones por correo electrónico si alguien responde a mi comentario.
         </label>
         <label class="mb-[calc(var(--space)*4)]">
-            <input name="acceptPrivacy" type="checkbox" class="checkbox" />
+            <input name="acceptPrivacy" type="checkbox" class="checkbox" aria-required="true" />
             <span>
                 He leído y acepto la <a
                     href="/politica-privacidad"

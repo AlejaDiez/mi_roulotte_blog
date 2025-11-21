@@ -20,13 +20,15 @@ const currentStage = stages.findIndex(({ url }) =>
         <>
             <section
                 {id}
+                role="navigation"
                 {style}
                 class:list={cls}
-                class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]">
+                class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]"
+                aria-label="Etapas del viaje">
                 <div class="scroll scrollbar-hidden relative -left-(--space-x) w-[calc(var(--space-x)*2+100%)] snap-x snap-mandatory scroll-px-(--space-x) overflow-x-scroll scroll-smooth">
-                    <div class="stages flex w-max flex-row items-start justify-start gap-[calc(var(--space)*4)] px-(--space-x)">
+                    <div role="list" class="stages flex w-max flex-row items-start justify-start gap-[calc(var(--space)*4)] px-(--space-x)">
                         {stages.map(({ title, image, url }) => (
-                            <a href={url} class="card snap-start">
+                            <a role="listitem" href={url} class="card snap-start">
                                 <div class="image">
                                     <img
                                         src={image}
@@ -41,11 +43,11 @@ const currentStage = stages.findIndex(({ url }) =>
                     </div>
                 </div>
                 <div class="controls flex w-full flex-row items-center justify-end max-md:justify-start">
-                    <button class="button prev button-fill-primary">
-                        <i class="ibm-chevron-left" />
+                    <button class="button prev button-fill-primary" aria-label="Ir a la etapa anterior">
+                        <i class="ibm-chevron-left" aria-hidden="true" />
                     </button>
-                    <button class="button next button-fill-primary">
-                        <i class="ibm-chevron-right" />
+                    <button class="button next button-fill-primary" aria-label="Ir a la etapa siguiente">
+                        <i class="ibm-chevron-right" aria-hidden="true" />
                     </button>
                 </div>
             </section>
@@ -99,23 +101,27 @@ const currentStage = stages.findIndex(({ url }) =>
     ) : (
         <section
             {id}
+            role="navigation"
             {style}
             class:list={cls}
-            class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-row items-center justify-between max-md:justify-start">
+            class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-row items-center justify-between max-md:justify-start"
+            aria-label="Etapas del viaje">
             {currentStage > 0 ? (
                 <a
+                    role="listitem"
                     href={stages[currentStage - 1]!.url}
-                    class="button prev button-fill-primary">
-                    <i class="ibm-chevron-left" />
+                    class="button prev button-fill-primary" aria-label="Ir a la etapa anterior">
+                    <i class="ibm-chevron-left" aria-hidden="true" />
                 </a>
             ) : (
                 <a
+                    role="listitem"
                     href={Astro.url.pathname.split("/").slice(0, -1).join("/")}
-                    class="button home button-fill-primary">
-                    <i class="ibm-home" />
+                    class="button home button-fill-primary" aria-label="Volver al viaje">
+                    <i class="ibm-home" aria-hidden="true" />
                 </a>
             )}
-            <div class="stages flex flex-row flex-wrap items-center justify-center">
+            <div role="list" class="stages flex flex-row flex-wrap items-center justify-center">
                 {stages.map(({ url }, i) =>
                     currentStage !== i ? (
                         <a
@@ -124,7 +130,7 @@ const currentStage = stages.findIndex(({ url }) =>
                             {i + 1}
                         </a>
                     ) : (
-                        <span class="button button-primary cursor-default font-semibold">
+                        <span class="button button-primary cursor-default font-semibold" aria-current="step">
                             {i + 1}
                         </span>
                     )
@@ -133,8 +139,8 @@ const currentStage = stages.findIndex(({ url }) =>
             {currentStage < stages.length - 1 ? (
                 <a
                     href={stages[currentStage + 1]!.url}
-                    class="button next button-fill-primary">
-                    <i class="ibm-chevron-right" />
+                    class="button next button-fill-primary" aria-label="Ir a la etapa siguiente">
+                    <i class="ibm-chevron-right" aria-hidden="true" />
                 </a>
             ) : (
                 <div class="w-14" />

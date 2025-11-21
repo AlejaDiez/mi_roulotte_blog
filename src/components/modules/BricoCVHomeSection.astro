@@ -11,9 +11,13 @@ const data: string[] = (await promise)["items"].map(
 
 <section
     id="brico-cv"
-    class="md:**:animation-paused relative w-screen overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) md:h-screen md:snap-start">
+    role="region"
+    class="md:**:animation-paused relative w-screen overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) md:h-screen md:snap-start"
+    aria-label="Videos de bricolaje">
     <div
-        class="scroll scrollbar-hidden relative z-0 w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth md:h-full">
+        tabindex="0"
+        class="scroll scrollbar-hidden relative z-0 w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth md:h-full"
+        aria-label="Contenedor de videos horizontal">
         <div
             class="videos flex w-max flex-row items-center justify-start gap-[calc(var(--space-x)*2)] px-(--space-x) md:h-full md:gap-[calc(var(--space)*4)] md:px-[calc(50vw-min(75vw,4/3*75vh)/2)]">
             {
@@ -34,12 +38,14 @@ const data: string[] = (await promise)["items"].map(
         </div>
     </div>
     <button
-        class="prev button button-fill-primary animate-clip-right animation-delay-500 absolute top-1/2 left-(--space-x) z-10 -translate-y-1/2">
-        <i class="ibm-chevron-left"></i>
+        class="prev button button-fill-primary animate-clip-right animation-delay-500 absolute top-1/2 left-(--space-x) z-10 -translate-y-1/2"
+        aria-label="Vídeo anterior">
+        <i class="ibm-chevron-left" aria-hidden="true"></i>
     </button>
     <button
-        class="next button button-fill-primary animate-clip-left animation-delay-500 absolute top-1/2 right-(--space-x) z-10 -translate-y-1/2">
-        <i class="ibm-chevron-right"></i>
+        class="next button button-fill-primary animate-clip-left animation-delay-500 absolute top-1/2 right-(--space-x) z-10 -translate-y-1/2"
+        aria-label="Siguiente vídeo">
+        <i class="ibm-chevron-right" aria-hidden="true"></i>
     </button>
 </section>
 
