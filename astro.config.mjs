@@ -4,6 +4,7 @@ import preact from "@astrojs/preact";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
+console.log();
 export default defineConfig({
     site: "https://miroulotte.es",
     trailingSlash: "ignore",
@@ -11,6 +12,7 @@ export default defineConfig({
     adapter: cloudflare({
         platformProxy: {
             enabled: true,
+            environment: process.env.NODE_ENV === "development" ? "dev" : undefined,
             configPath: "./wrangler.jsonc",
             persist: {
                 path: "../mi_roulotte_api/.wrangler/state/v3"
