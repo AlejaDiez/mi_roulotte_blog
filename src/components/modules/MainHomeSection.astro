@@ -1,6 +1,7 @@
 <section
     id="inicio"
-    class="max-md:bg-muted max-md:animate-clip-right md:**:animation-paused relative w-[calc(var(--space-x)+100%)] overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) max-md:px-(--space-x) max-md:py-8 md:h-screen md:w-screen md:snap-start">
+    class="max-md:bg-muted max-md:animate-clip-right md:**:animation-paused relative w-[calc(var(--space-x)+100%)] overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) max-md:px-(--space-x) max-md:py-8 md:h-screen md:w-screen md:snap-start"
+    aria-label="Sección de presentación de Mi Roulotte">
     <img
         src="/assets/IMG_20200825_185010.webp"
         alt="Ponta da Piedade"
@@ -13,28 +14,40 @@
     </h1>
     <img
         src="/assets/IMG_20200825_185010.webp"
-        alt="Ponta da Piedade"
+        alt=""
         style="mask-image: url('/assets/IMG_20200825_185010_MASK.webp')"
         class="absolute top-0 left-0 h-full w-full mask-cover mask-center object-cover max-md:hidden"
         decoding="async"
+        aria-hidden="true"
     />
     <div
         class="absolute right-(--space-x) bottom-(--space-y) flex flex-row max-md:hidden md:animate-[500ms_cubic-bezier(0.4,0,0.2,1)_500ms_backwards_fade]">
         <a
-            title="Instagram"
             href="https://www.instagram.com/miroulotte/"
+            title="Instagram"
             target="_blank"
             rel="noopener noreferrer"
-            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100">
-            <i class="ibm-logo-instagram"></i>
+            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100"
+            aria-label="Instagram de Mi Roulotte">
+            <i class="ibm-logo-instagram" aria-hidden="true"></i>
         </a>
         <a
-            title="YouTube"
-            href="https://www.youtube.com/@miroulotte/"
+            href="https://www.x.com/miroulotte/"
+            title="X"
             target="_blank"
             rel="noopener noreferrer"
-            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100">
-            <i class="ibm-logo-youtube"></i>
+            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100"
+            aria-label="X de Mi Roulotte">
+            <i class="ibm-logo-x" aria-hidden="true"></i>
+        </a>
+        <a
+            href="https://www.youtube.com/@miroulotte/"
+            title="YouTube"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="button button-fill-primary hover:bg-white-hover bg-white text-gray-100"
+            aria-label="YouTube de Mi Roulotte">
+            <i class="ibm-logo-youtube" aria-hidden="true"></i>
         </a>
     </div>
 </section>

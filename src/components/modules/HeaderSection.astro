@@ -12,13 +12,17 @@ const { title, subtitle, image, id, style, class: cls } = Astro.props;
 
 <section
     {id}
+    role="banner"
     {style}
     class:list={cls}
-    class="header-section max-md:aspect-portrait relative aspect-video w-full cursor-default select-none md:max-h-[48rem] md:min-h-96">
+    class="header-section max-md:aspect-portrait relative aspect-video w-full cursor-default select-none md:max-h-[48rem] md:min-h-96"
+    aria-label={title}>
     {
         subtitle && (
             <div class="subtitle animate-clip-top bg-primary absolute top-0 right-[calc(var(--space-overflow)+50%)] z-10 block h-(--space-y) content-center px-6 max-md:hidden">
-                <h2 class="text-subtitle text-primary-foreground line-clamp-1 text-center">
+                <h2
+                    class="text-subtitle text-primary-foreground line-clamp-1 text-center"
+                    aria-hidden="true">
                     {subtitle}
                 </h2>
             </div>

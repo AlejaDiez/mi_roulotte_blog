@@ -30,5 +30,23 @@
             "pattern": "miroulotte.es",
             "custom_domain": true
         }
-    ]
+    ],
+    "env": {
+        "dev": {
+            "d1_databases": [
+                {
+                    "binding": "DB",
+                    "database_name": "mi-roulotte-db",
+                    "database_id": "2f584243-2f1b-4425-b7d6-c0971f34f976"
+                }
+            ],
+            "vars": {
+                "ENVIRONMENT": "development",
+                "API_HOST": "http://localhost:3010",
+                "CDN_HOST": "http://localhost:3000",
+                "HOST": "http://localhost:3000",
+                "STUDIO_HOST": "http://localhost:3020"
+            }
+        }
+    }
 }

@@ -26,50 +26,63 @@ const { id, style, class: cls } = Astro.props;
         </svg>
     </a>
     <div
+        id="main-menu"
+        role="menu"
         class="menu max-md:clip-bottom max-md:bg-background max-md:group-data-expanded:clip-none max-md:fixed max-md:top-0 max-md:left-0 max-md:-z-10 max-md:flex max-md:h-full max-md:w-full max-md:flex-col max-md:pt-(--space-y) max-md:transition-[clip-path] max-md:duration-500">
         <nav
+            role="menu"
             class="flex flex-row items-center justify-end max-md:my-auto max-md:max-h-full max-md:flex-col max-md:items-start max-md:justify-start max-md:overflow-y-auto max-md:px-(--space-x) max-md:pb-(--space-y) md:-mr-6">
             <a
+                role="menuitem"
                 href="/#inicio"
                 target="_self"
                 class="button button-muted max-md:w-full max-md:justify-start max-md:p-0 max-md:text-2xl max-md:font-semibold">
                 <span>Inicio</span>
             </a>
-            <div class="sub-menu group/alt relative max-md:w-full md:mt-3 md:pb-3">
+            <div
+                class="sub-menu group/alt relative max-md:w-full md:mt-3 md:pb-3"
+                aria-haspopup="true">
                 <a
+                    role="menuitem"
                     href="/#viajes"
                     target="_self"
                     class="button button-muted group-has-[.button-primary]/alt:text-primary group-has-[.button-primary]/alt:hover:text-primary-hover max-md:w-full max-md:justify-start max-md:p-0 max-md:text-2xl max-md:font-semibold">
                     <span>Viajes</span>
-                    <i class="ibm-chevron-down max-md:hidden"></i>
+                    <i class="ibm-chevron-down max-md:hidden" aria-hidden="true"></i>
                 </a>
                 <nav
+                    role="menu"
                     class="md:bg-muted md:clip-bottom md:group-hover/alt:clip-none sub-menu flex w-full flex-col items-start justify-start max-md:pl-(--space-x) md:absolute md:top-full md:left-0 md:z-10 md:w-64 md:py-2 md:transition-[clip-path] md:duration-300">
                     <a
+                        role="menuitem"
                         href="/suiza-2025"
                         target="_self"
                         class="button button-muted w-full justify-start text-left max-md:w-full max-md:justify-start max-md:p-0">
                         <span>Suiza 2025</span>
                     </a>
                     <a
+                        role="menuitem"
                         href="/italia-2021"
                         target="_self"
                         class="button button-muted w-full justify-start text-left max-md:w-full max-md:justify-start max-md:p-0">
                         <span>Italia 2021</span>
                     </a>
                     <a
+                        role="menuitem"
                         href="/alemania-2019"
                         target="_self"
                         class="button button-muted w-full justify-start text-left max-md:w-full max-md:justify-start max-md:p-0">
                         <span>Alemania 2019</span>
                     </a>
                     <a
+                        role="menuitem"
                         href="/francia-2018"
                         target="_self"
                         class="button button-muted w-full justify-start text-left max-md:w-full max-md:justify-start max-md:p-0">
                         <span>Francia 2018</span>
                     </a>
                     <a
+                        role="menuitem"
                         href="/francia-2017"
                         target="_self"
                         class="button button-muted w-full justify-start text-left max-md:w-full max-md:justify-start max-md:p-0">
@@ -78,6 +91,7 @@ const { id, style, class: cls } = Astro.props;
                 </nav>
             </div>
             <a
+                role="menuitem"
                 href="/#brico-cv"
                 target="_self"
                 class="button button-muted max-md:w-full max-md:justify-start max-md:p-0 max-md:text-2xl max-md:font-semibold">
@@ -86,8 +100,10 @@ const { id, style, class: cls } = Astro.props;
         </nav>
     </div>
     <button
-        class="menu-toggle button button-primary -mr-4.5 transition-[color,rotate] duration-[150ms,500ms] group-data-expanded:rotate-90 md:hidden">
-        <i class="ibm-menu"></i>
+        class="menu-toggle button button-primary -mr-4.5 transition-[color,rotate] duration-[150ms,500ms] group-data-expanded:rotate-90 md:hidden"
+        aria-expanded="false"
+        aria-controls="main-menu">
+        <i class="ibm-menu" aria-hidden="true"></i>
     </button>
 </header>
 
@@ -108,6 +124,7 @@ const { id, style, class: cls } = Astro.props;
     };
     const clickCallbackToggle = () => {
         header.toggleAttribute("data-expanded");
+        toggleButton.setAttribute("aria-expanded", header.hasAttribute("data-expanded").toString());
     };
     const hashchangeCallback = () => {
         for (const link of links) {

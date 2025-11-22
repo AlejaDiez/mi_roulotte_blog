@@ -12,45 +12,80 @@ const { id, style, class: cls } = Astro.props;
     class:list={cls}
     class="footer flex h-32 w-full cursor-default flex-col items-start justify-start px-(--space-x) select-none max-sm:h-40 max-sm:pb-2">
     <div
-        class="content mt-8 flex w-full grow flex-row items-center justify-between max-sm:flex-col max-sm:justify-center max-sm:gap-2">
+        class="content mt-8 flex w-full grow flex-row items-center justify-between max-sm:flex-col max-sm:justify-center max-sm:gap-1">
         <a
             href="https://x.com/intent/post?text=%23NosVemosEnLaCarretera%20%23MiRoulotte"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-muted-foreground-variant hover:text-primary-hover inline-flex cursor-default flex-row items-center justify-start transition-colors">
-            <span class="text-normal text-current">¡Nos vemos en la carretera!</span>
+            class="text-muted-foreground-variant hover:text-primary-hover text-normal inline-flex cursor-default flex-row items-center justify-start transition-colors">
+            ¡Nos vemos en la carretera!
         </a>
-        <nav class="social-links flex flex-row md:-mr-2.5">
+        <nav role="navigation" class="social-links flex flex-row sm:-mr-2.5">
             <a
-                title="Correo electrónico"
                 href="mailto:contacto@miroulotte.es?subject=Contactar%20con%20Mi%20Roulotte"
+                title="Correo electrónico"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors">
-                <i class="icon ibm-email text-current"></i>
+                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
+                aria-label="Correo electrónico de Mi Roulotte">
+                <i class="icon ibm-email text-current" aria-hidden="true"></i>
             </a>
             <a
-                title="Instagram"
                 href="https://www.instagram.com/miroulotte/"
+                title="Instagram"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors">
-                <i class="icon ibm-logo-instagram text-current"></i>
+                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
+                aria-label="Instagram de Mi Roulotte">
+                <i class="icon ibm-logo-instagram text-current" aria-hidden="true"></i>
             </a>
             <a
-                title="YouTube"
-                href="https://www.youtube.com/@miroulotte/"
+                href="https://www.x.com/miroulotte/"
+                title="X"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors">
-                <i class="icon ibm-logo-youtube text-current"></i>
+                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
+                aria-label="X de Mi Roulotte">
+                <i class="icon ibm-logo-x text-current" aria-hidden="true"></i>
+            </a>
+            <a
+                href="https://www.youtube.com/@miroulotte/"
+                title="YouTube"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
+                aria-label="YouTube de Mi Roulotte">
+                <i class="icon ibm-logo-youtube text-current" aria-hidden="true"></i>
             </a>
         </nav>
     </div>
     <div
-        class="license flex h-8 w-full flex-row items-start justify-start max-sm:items-center max-sm:justify-center max-sm:text-center">
-        <span class="text-label text-gray-20 dark:text-gray-70">
-            &copy; {new Date().getFullYear()} Mi Roulotte · Todos los derechos reservados
-        </span>
+        class="legal text-label text-gray-20 dark:text-gray-70 flex h-8 w-full flex-row items-center justify-between max-sm:flex-col max-sm:justify-center max-sm:gap-1">
+        <div class="links flex flex-row items-center">
+            <a
+                href="/politica-privacidad"
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
+                Política de Privacidad
+            </a>
+            &nbsp;·&nbsp;
+            <a
+                href="/politica-cookies"
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
+                Política de Cookies
+            </a>
+            &nbsp;·&nbsp;
+            <a
+                href="/aviso-legal"
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
+                Aviso Legal
+            </a>
+        </div>
+        <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/de"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="license hover:text-gray-20-hover dark:hover:text-gray-70-hover transition-colors">
+            &copy; {new Date().getFullYear()} Mi Roulotte
+        </a>
     </div>
 </footer>

@@ -19,10 +19,16 @@ export const MountReplyBanner = (id: string, username: string) => {
 
     clickCallback();
     render(
-        <blockquote className="reply-banner bg-blue-10 dark:bg-blue-90 border-blue-20 dark:border-blue-70 relative w-full border-l-1 px-3 py-4">
+        <blockquote
+            role="region"
+            className="reply-banner bg-blue-10 dark:bg-blue-90 border-blue-20 dark:border-blue-70 relative w-full border-l-1 px-3 py-4"
+            aria-label={`En respuesta a ${username}`}>
             En respuesta a {username}
-            <button onClick={clickCallback} className="button button-accent absolute top-0 right-0">
-                <i className="ibm-close"></i>
+            <button
+                onClick={clickCallback}
+                className="button button-accent absolute top-0 right-0"
+                aria-label="Cerrar respuesta">
+                <i className="ibm-close" aria-hidden="true"></i>
             </button>
             <input type="hidden" name="repliedTo" value={id} readonly />
         </blockquote>,
@@ -36,7 +42,9 @@ const Component = ({ id, username, lastUpdatedAt, content, children }: Props) =>
         <div
             id={id}
             className="comment border-border group relative flex w-full scroll-m-(--space-y) flex-col items-start justify-start border-1">
-            <div className="comment-header text-normal text-foreground w-full px-4 pt-3 pb-2 font-light select-none">
+            <div
+                className="comment-header text-normal text-foreground w-full px-4 pt-3 pb-2 font-light select-none"
+                aria-label={`Comentario de ${username}, publicado ${lastUpdatedAt ? timeAgo(lastUpdatedAt) : "ahora"}`}>
                 <strong className="font-semibold">{username}</strong>&nbsp;
                 {lastUpdatedAt ? timeAgo(lastUpdatedAt) : "ahora"}
             </div>

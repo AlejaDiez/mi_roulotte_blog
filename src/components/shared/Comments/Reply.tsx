@@ -12,7 +12,8 @@ const Component = ({ id, username, content, lastUpdatedAt }: Props) => {
     return (
         <div
             id={id}
-            className="reply bg-muted flex w-full scroll-m-(--space-y) flex-col items-start justify-start">
+            className="reply bg-muted flex w-full scroll-m-(--space-y) flex-col items-start justify-start"
+            aria-label={`Respuesta de ${username}, publicado ${lastUpdatedAt ? timeAgo(lastUpdatedAt) : "ahora"}`}>
             <div className="reply-header text-normal text-muted-foreground w-full px-4 pt-3 pb-2 font-light select-none">
                 <strong className="font-semibold">{username}</strong>&nbsp;
                 {lastUpdatedAt ? timeAgo(lastUpdatedAt) : "ahora"}
