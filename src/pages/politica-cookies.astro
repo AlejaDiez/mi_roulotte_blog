@@ -1,0 +1,74 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+import ScrollToTop from "@components/shared/ScrollToTop.astro";
+
+export const prerender = true;
+---
+
+<Layout title="Política de cookies">
+    <Header />
+    <Main>
+        <section class="flex flex-col items-start justify-start gap-[calc(var(--space)*2)]">
+            <h1 class="text-headline">Política de Cookies</h1>
+            <p class="text-label text-muted-foreground-variant">
+                <strong class="font-semibold">Última actualización:</strong> 25 de agosto de 2025
+            </p>
+        </section>
+        <section class="flex flex-col items-start justify-start gap-[calc(var(--space)*4)]">
+            <p>
+                En <strong class="font-semibold">Mi Roulotte</strong> utilizamos cookies propias y de
+                terceros para mejorar la experiencia de navegación.
+            </p>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">1. ¿Qué son las cookies?</h2>
+                <p class="mt-(--space) ml-4.5">
+                    Las cookies son archivos que se descargan en tu dispositivo al acceder a la Web,
+                    permitiendo almacenar información sobre tu navegación.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">2. Tipos de cookies utilizadas</h2>
+                <ul class="my-(--space) ml-4.5 list-disc">
+                    <li class="ml-8">
+                        <strong>Cookies técnicas:</strong> necesarias para el funcionamiento de la Web
+                        (p. ej., carga de contenido o navegación segura).
+                    </li>
+                    <li class="ml-8">
+                        <strong>Cookies de terceros:</strong> solo se usan si interactúas con contenido
+                        externo, como vídeos de YouTube en modo privacy-enhanced.
+                    </li>
+                </ul>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">3. Gestión de cookies</h2>
+                <p class="mt-(--space) ml-4.5">
+                    Puedes configurar tu navegador para rechazar o eliminar cookies. También puedes
+                    usar herramientas de privacidad para controlar qué cookies se aceptan.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">4. Cookies de YouTube</h2>
+                <p class="mt-(--space) ml-4.5">
+                    Los vídeos de YouTube se cargan mediante la opción <strong
+                        >youtube-nocookie.com</strong
+                    >, evitando cookies de seguimiento. Solo se cargan cookies técnicas necesarias
+                    para reproducir el vídeo.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">5. Más información</h2>
+                <p class="mt-(--space) ml-4.5">
+                    Para más información sobre cookies y cómo gestionarlas, puedes consultar la
+                    <a href="https://www.aepd.es" target="_blank" class="underline"
+                        >Agencia Española de Protección de Datos (AEPD)</a
+                    >.
+                </p>
+            </article>
+        </section>
+    </Main>
+    <Footer />
+    <ScrollToTop />
+</Layout>

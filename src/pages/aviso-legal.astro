@@ -1,0 +1,96 @@
+---
+import Layout from "@components/layouts/Layout.astro";
+import Footer from "@components/shared/Footer.astro";
+import Header from "@components/shared/Header.astro";
+import Main from "@components/shared/Main.astro";
+import ScrollToTop from "@components/shared/ScrollToTop.astro";
+
+export const prerender = true;
+---
+
+<Layout title="Aviso legal">
+    <Header />
+    <Main>
+        <section class="flex flex-col items-start justify-start gap-[calc(var(--space)*2)]">
+            <h1 class="text-headline">Aviso Legal</h1>
+            <p class="text-label text-muted-foreground-variant">
+                <strong class="font-semibold">Última actualización:</strong> 25 de agosto de 2025
+            </p>
+        </section>
+        <section class="flex flex-col items-start justify-start gap-[calc(var(--space)*4)]">
+            <p>
+                El presente Aviso Legal regula el uso del sitio web <strong class="font-semibold"
+                    >Mi Roulotte</strong
+                >, disponible en <a href="/" target="_blank" class="underline"
+                    >{import.meta.env.SITE}</a
+                > (en adelante, "la Web").
+            </p>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">1. Titular del sitio web</h2>
+                <p class="mt-(--space) ml-4.5">
+                    El titular de esta Web es Alejandro Diez Bermejo. Puedes contactar en:
+                </p>
+                <ul class="my-(--space) ml-4.5 list-disc">
+                    <li class="ml-8"><strong>Nombre:</strong> Alejandro Diez Bermejo</li>
+                    <li class="ml-8">
+                        <strong>Email:</strong>
+                        <a
+                            href="mailto:contacto@miroulotte.es?subject=Consulta%20Aviso%20Legal"
+                            class="underline">
+                            contacto@miroulotte.es
+                        </a>
+                    </li>
+                </ul>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">2. Condiciones de uso</h2>
+                <p class="mt-(--space) ml-4.5">
+                    El acceso y uso de la Web implica la aceptación de estas condiciones. El usuario
+                    se compromete a:
+                </p>
+                <ul class="my-(--space) ml-4.5 list-disc">
+                    <li class="ml-8">Hacer un uso adecuado de la Web y sus contenidos.</li>
+                    <li class="ml-8">
+                        No realizar actividades ilícitas o contrarias a la buena fe.
+                    </li>
+                    <li class="ml-8">
+                        No vulnerar los derechos de terceros ni de propiedad intelectual.
+                    </li>
+                </ul>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">3. Propiedad intelectual</h2>
+                <p class="mt-(--space) ml-4.5">
+                    Todos los contenidos de la Web (textos, imágenes, logos, gráficos, código
+                    fuente) son propiedad del titular o de terceros que han autorizado su uso. Queda
+                    prohibida la reproducción, distribución o transformación de dichos contenidos
+                    sin permiso expreso.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">4. Responsabilidad</h2>
+                <p class="mt-(--space) ml-4.5">
+                    El titular no se hace responsable de los daños derivados del uso de la Web,
+                    errores técnicos, contenidos de terceros o accesos no autorizados. Se aplicarán
+                    los límites de responsabilidad previstos por la ley.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">5. Modificaciones</h2>
+                <p class="mt-(--space) ml-4.5">
+                    El titular se reserva el derecho de modificar esta información para adaptarla a
+                    cambios legales o técnicos. Los cambios serán notificados en la Web.
+                </p>
+            </article>
+            <article class="flex flex-col items-start justify-start">
+                <h2 class="text-foreground font-semibold">6. Legislación aplicable</h2>
+                <p class="mt-(--space) ml-4.5">
+                    La relación entre el usuario y el titular se rige por la legislación española
+                    vigente.
+                </p>
+            </article>
+        </section>
+    </Main>
+    <Footer />
+    <ScrollToTop />
+</Layout>

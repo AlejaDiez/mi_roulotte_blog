@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 
 Disallow: /404
+Disallow: /aviso-legal
+Disallow: /politica-cookies
 Disallow: /politica-privacidad
 
 Sitemap: https://miroulotte.es/sitemap.xml
