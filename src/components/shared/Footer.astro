@@ -17,17 +17,22 @@ const { id, style, class: cls } = Astro.props;
             href="https://x.com/intent/post?text=%23NosVemosEnLaCarretera%20%23MiRoulotte"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-muted-foreground-variant hover:text-primary-hover text-normal inline-flex cursor-default flex-row items-center justify-start transition-colors">
+            class="text-muted-foreground-variant hover:text-primary-hover text-normal inline-flex cursor-default flex-row items-center justify-start text-center transition-colors"
+            tabindex="-1">
             ¡Nos vemos en la carretera!
         </a>
-        <nav role="navigation" class="social-links flex flex-row sm:-mr-2.5">
+        <nav
+            role="navigation"
+            class="social-links flex flex-row sm:-mr-2.5"
+            aria-label="Redes sociales y contacto">
             <a
                 href="mailto:contacto@miroulotte.es?subject=Contactar%20con%20Mi%20Roulotte"
                 title="Correo electrónico"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
-                aria-label="Correo electrónico de Mi Roulotte">
+                aria-label="Enviar correo electrónico a Mi Roulotte"
+                tabindex="-1">
                 <i class="icon ibm-email text-current" aria-hidden="true"></i>
             </a>
             <a
@@ -36,7 +41,8 @@ const { id, style, class: cls } = Astro.props;
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
-                aria-label="Instagram de Mi Roulotte">
+                aria-label="Instagram de Mi Roulotte"
+                tabindex="-1">
                 <i class="icon ibm-logo-instagram text-current" aria-hidden="true"></i>
             </a>
             <a
@@ -45,7 +51,8 @@ const { id, style, class: cls } = Astro.props;
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
-                aria-label="X de Mi Roulotte">
+                aria-label="X de Mi Roulotte"
+                tabindex="-1">
                 <i class="icon ibm-logo-x text-current" aria-hidden="true"></i>
             </a>
             <a
@@ -54,7 +61,8 @@ const { id, style, class: cls } = Astro.props;
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-muted-foreground-variant hover:text-primary-hover inline-flex h-10 w-10 flex-row items-center justify-center p-2.5 transition-colors"
-                aria-label="YouTube de Mi Roulotte">
+                aria-label="YouTube de Mi Roulotte"
+                tabindex="-1">
                 <i class="icon ibm-logo-youtube text-current" aria-hidden="true"></i>
             </a>
         </nav>
@@ -64,27 +72,35 @@ const { id, style, class: cls } = Astro.props;
         <div class="links flex flex-row items-center">
             <a
                 href="/politica-privacidad"
-                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
-                Política de Privacidad
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover text-center underline transition-colors"
+                tabindex="-1">
+                <span class="max-sm:hidden">Política de Privacidad</span>
+                <span class="sm:hidden">Privacidad</span>
             </a>
-            &nbsp;·&nbsp;
+            <span aria-hidden="true">&nbsp;·&nbsp;</span>
             <a
                 href="/politica-cookies"
-                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
-                Política de Cookies
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover text-center underline transition-colors"
+                tabindex="-1">
+                <span class="max-sm:hidden">Política de Cookies</span>
+                <span class="sm:hidden">Cookies</span>
             </a>
-            &nbsp;·&nbsp;
+            <span aria-hidden="true">&nbsp;·&nbsp;</span>
             <a
                 href="/aviso-legal"
-                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover underline transition-colors">
-                Aviso Legal
+                class="hover:text-gray-20-hover dark:hover:text-gray-70-hover text-center underline transition-colors"
+                tabindex="-1">
+                <span class="max-sm:hidden">Aviso Legal</span>
+                <span class="sm:hidden">Legalidad</span>
             </a>
         </div>
         <a
             href="https://creativecommons.org/licenses/by-nc-sa/4.0/de"
             target="_blank"
             rel="noopener noreferrer"
-            class="license hover:text-gray-20-hover dark:hover:text-gray-70-hover transition-colors">
+            class="license hover:text-gray-20-hover dark:hover:text-gray-70-hover transition-colors"
+            aria-label={`Copyright ${new Date().getFullYear()} Mi Roulotte. Licencia Creative Commons BY-NC-SA 4.0 (se abre en una nueva pestaña)`}
+            tabindex="-1">
             &copy; {new Date().getFullYear()} Mi Roulotte
         </a>
     </div>

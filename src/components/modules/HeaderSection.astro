@@ -20,9 +20,7 @@ const { title, subtitle, image, id, style, class: cls } = Astro.props;
     {
         subtitle && (
             <div class="subtitle animate-clip-top bg-primary absolute top-0 right-[calc(var(--space-overflow)+50%)] z-10 block h-(--space-y) content-center px-6 max-md:hidden">
-                <h2
-                    class="text-subtitle text-primary-foreground line-clamp-1 text-center"
-                    aria-hidden="true">
+                <h2 class="text-subtitle text-primary-foreground line-clamp-1 text-center">
                     {subtitle}
                 </h2>
             </div>
@@ -41,6 +39,8 @@ const { title, subtitle, image, id, style, class: cls } = Astro.props;
             src={image}
             alt={subtitle}
             decoding="async"
+            loading="eager"
+            fetchpriority="high"
             class="h-full w-full scale-105 object-cover object-center transition-transform duration-300 md:group-hover:scale-115 md:group-hover:transition-[scale]"
         />
     </div>

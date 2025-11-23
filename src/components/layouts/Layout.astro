@@ -13,15 +13,30 @@ const { title, description, image, keywords, id, style, class: cls } = Astro.pro
 const name: string = "Mi Roulotte";
 const lang: string = "es";
 const author: string = "Alejandro Diez Bermejo";
+const pageTitle = title === name ? name : `${title} | ${name}`;
 ---
 
 <html {lang}>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
-        <title>{title === name ? name : `${title} | ${name}`}</title>
+        <title>{pageTitle}</title>
         {description && <meta name="description" content={description} />}
         <meta name="author" content={author} />
+        <link
+            rel="preload"
+            href="/fonts/IBMPlexSans/Variable.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="/fonts/IBMCarbonIcons/Regular.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
         <link
             rel="canonical"
             href={new URL(
@@ -30,8 +45,8 @@ const author: string = "Alejandro Diez Bermejo";
             )}
         />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="mi-roulotte" href="/apple-touch-icon.png" />
-        <link rel="mi-roulotte" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-precomposed.png" />
         <meta http-equiv="Content-Language" content={lang} />
         <link rel="manifest" href="/manifest.json" />
         {
@@ -51,7 +66,7 @@ const author: string = "Alejandro Diez Bermejo";
         <meta property="og:url" content={Astro.url} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content={name} />
-        <meta property="og:title" content={title === name ? name : `${title} | ${name}`} />
+        <meta property="og:title" content={pageTitle} />
         {description && <meta property="og:description" content={description} />}
         {
             image && (
@@ -61,40 +76,42 @@ const author: string = "Alejandro Diez Bermejo";
                 />
             )
         }
-        {image && <meta property="og:image:alt" content={title} />}
+        {image && <meta property="og:image:alt" content={pageTitle} />}
         <meta name="color-scheme" content="light dark" />
         <script>
-            const sliders = document.body.querySelectorAll<HTMLInputElement>(
-                'input[type="range"].slider'
-            );
+            document.addEventListener("DOMContentLoaded", () => {
+                const sliders = document.body.querySelectorAll<HTMLInputElement>(
+                    'input[type="range"].slider'
+                );
 
-            for (const slider of sliders) {
-                const valueCallback = (event: Event) => {
-                    const { detail } = event as CustomEvent;
-                    const value = Number(detail) || 0;
-                    const min = Number(slider.min) || 0;
-                    const max = Number(slider.max) || 100;
+                for (const slider of sliders) {
+                    const valueCallback = (event: Event) => {
+                        const { detail } = event as CustomEvent;
+                        const value = Number(detail) || 0;
+                        const min = Number(slider.min) || 0;
+                        const max = Number(slider.max) || 100;
 
-                    slider.value = String(value);
-                    slider.style.setProperty(
-                        "--progress",
-                        `${((value - min) / (max - min)) * 100}%`
-                    );
-                };
-                const inputCallback = () => {
-                    slider.dispatchEvent(
-                        new CustomEvent("value", {
-                            detail: slider.value,
-                            bubbles: false,
-                            cancelable: false
-                        })
-                    );
-                };
+                        slider.value = String(value);
+                        slider.style.setProperty(
+                            "--progress",
+                            `${((value - min) / (max - min)) * 100}%`
+                        );
+                    };
+                    const inputCallback = () => {
+                        slider.dispatchEvent(
+                            new CustomEvent("value", {
+                                detail: slider.value,
+                                bubbles: false,
+                                cancelable: false
+                            })
+                        );
+                    };
 
-                slider.addEventListener("value", valueCallback);
-                slider.addEventListener("input", inputCallback);
-                inputCallback();
-            }
+                    slider.addEventListener("value", valueCallback);
+                    slider.addEventListener("input", inputCallback);
+                    inputCallback();
+                }
+            });
         </script>
     </head>
     <body {id} {style} class:list={cls}>

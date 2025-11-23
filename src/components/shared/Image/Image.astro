@@ -11,9 +11,11 @@ const { url, caption, id, style, class: cls } = Astro.props;
 
 <figure
     {id}
+    role="button"
     {style}
     class:list={cls}
-    class="image bg-muted group relative h-auto w-auto cursor-pointer overflow-hidden select-none">
+    class="image bg-muted group relative h-auto w-auto cursor-pointer overflow-hidden select-none"
+    aria-label={caption ? `Ampliar imagen: ${caption}` : "Ampliar imagen"}>
     <img
         src={url}
         alt={caption}
@@ -26,7 +28,9 @@ const { url, caption, id, style, class: cls } = Astro.props;
     />
     {
         caption && (
-            <figcaption class="caption text-normal text-foreground-variant absolute top-0 left-0 h-full w-full content-center text-center">
+            <figcaption
+                class="caption text-normal text-foreground-variant absolute top-0 left-0 h-full w-full content-center text-center"
+                aria-hidden="true">
                 {caption}
             </figcaption>
         )

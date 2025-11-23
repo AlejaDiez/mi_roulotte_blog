@@ -24,12 +24,12 @@ const messages: string[] = [
 
 <section
     {id}
-    role="form"
+    role="region"
     {style}
     class:list={cls}
     class="comments-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start"
     aria-label="Sección de comentarios">
-    <h3 class="comments-count text-headline mb-(--space)">
+    <h3 class="comments-count text-headline mb-(--space)" aria-live="polite">
         {
             content.length === 0
                 ? "Ningún comentario"
@@ -55,7 +55,8 @@ const messages: string[] = [
     }
     <form
         action=`${Astro.locals.runtime.env.API_HOST}/comments`
-        class="comments-form mt-[calc(var(--space)*4)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*2)]">
+        class="comments-form mt-[calc(var(--space)*4)] flex w-full flex-col items-start justify-start gap-[calc(var(--space)*2)]"
+        novalidate>
         <input type="hidden" name="tripId" value={trip} readonly />
         <input type="hidden" name="stageId" value={stage} readonly />
         <label>
@@ -68,11 +69,17 @@ const messages: string[] = [
         </label>
         <label class="max-w-xl">
             Nombre
-            <input name="username" type="text" class="input" aria-required="true" />
+            <input
+                name="username"
+                type="text"
+                class="input"
+                aria-required="true"
+                autocomplete="name"
+            />
         </label>
         <label class="max-w-xl">
             Correo electrónico
-            <input name="email" type="text" class="input" />
+            <input name="email" type="email" class="input" autocomplete="email" />
         </label>
         <label class="mt-[calc(var(--space)*2)]">
             <input name="notify" type="checkbox" class="checkbox" checked />
@@ -84,7 +91,8 @@ const messages: string[] = [
                 He leído y acepto la <a
                     href="/politica-privacidad"
                     target="_blank"
-                    class="underline">política de privacidad</a
+                    class="underline"
+                    tabindex="-1">política de privacidad</a
                 >.
             </span>
         </label>
@@ -119,7 +127,7 @@ const messages: string[] = [
         const header = comment.querySelector("& > .comment-header")!;
         const button = header.appendChild(document.createElement("button"));
 
-        button.innerHTML = '<i class="ibm-reply text-sm"></i>';
+        button.innerHTML = '<i class="ibm-reply text-sm" aria-hidden="true"></i>';
         button.title = "Responder";
         button.classList.add(
             "reply",
@@ -137,6 +145,7 @@ const messages: string[] = [
             "group-hover:opacity-100",
             "md:opacity-0"
         );
+        button.setAttribute("aria-label", "Responder a este comentario");
         button.onclick = () =>
             MountReplyBanner(comment.id, header.querySelector("& > strong")!.textContent);
     }
@@ -178,18 +187,16 @@ const messages: string[] = [
     };
 
     const setError = (field: HTMLInputElement, message: string) => {
+        if (field.parentElement) field.parentElement.setAttribute("data-error", message);
+        field.setAttribute("aria-invalid", "true");
         field.setCustomValidity(" ");
-        if (field.parentElement instanceof HTMLLabelElement) {
-            field.parentElement.setAttribute("data-error", message);
-        }
         field.reportValidity();
     };
 
     const clearError = (field: HTMLInputElement) => {
         field.setCustomValidity("");
-        if (field.parentElement instanceof HTMLLabelElement) {
-            field.parentElement.removeAttribute("data-error");
-        }
+        field.removeAttribute("aria-invalid");
+        if (field.parentElement) field.parentElement.removeAttribute("data-error");
         field.reportValidity();
     };
 

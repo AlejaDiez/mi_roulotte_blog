@@ -18,7 +18,8 @@ const Component = ({ url, caption }: Props) => {
             role="dialog"
             className="lightbox bg-background fixed top-0 left-0 z-[90] flex h-full w-full cursor-default flex-col items-center justify-center gap-2 overflow-hidden p-(--space-y) select-none"
             aria-modal="true"
-            aria-describedby="lightbox-caption">
+            aria-label="Vista ampliada de imagen"
+            aria-describedby={caption ? "lightbox-caption" : undefined}>
             <div className="animate-clip-bottom animation-delay-500 block w-full content-center overflow-hidden">
                 <img
                     src={url}
@@ -37,7 +38,8 @@ const Component = ({ url, caption }: Props) => {
             <button
                 onClick={clickCallback}
                 className="button button-fill-primary animate-clip-left absolute top-3 right-3"
-                aria-label="Cerrar imagen ampliada">
+                aria-label="Cerrar imagen ampliada"
+                tabindex={-1}>
                 <i className="ibm-close" aria-hidden="true"></i>
             </button>
         </div>

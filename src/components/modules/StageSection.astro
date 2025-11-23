@@ -24,44 +24,55 @@ const currentStage = stages.findIndex(({ url }) =>
                 {style}
                 class:list={cls}
                 class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start gap-[calc(var(--space)*4)]"
-                aria-label="Etapas del viaje">
-                <div class="scroll scrollbar-hidden relative -left-(--space-x) w-[calc(var(--space-x)*2+100%)] snap-x snap-mandatory scroll-px-(--space-x) overflow-x-scroll scroll-smooth">
-                    <div role="list" class="stages flex w-max flex-row items-start justify-start gap-[calc(var(--space)*4)] px-(--space-x)">
-                        {stages.map(({ title, image, url }) => (
-                            <a role="listitem" href={url} class="card snap-start">
-                                <div class="image">
-                                    <img
-                                        src={image}
-                                        alt={title}
-                                        decoding="async"
-                                        class="img"
-                                    />
-                                </div>
-                                <span class="caption">{title}</span>
-                            </a>
-                        ))}
+                aria-label="Selección de etapas del viaje">
+                <div
+                    id="stages-scroll-container"
+                    class="scroll scrollbar-hidden relative -left-(--space-x) w-[calc(var(--space-x)*2+100%)] snap-x snap-mandatory scroll-px-(--space-x) overflow-x-scroll scroll-smooth"
+                    tabindex="-1">
+                    <div
+                        class="stages flex w-max flex-row items-start justify-start gap-[calc(var(--space)*4)] px-(--space-x)">
+                        {
+                            stages.map(({ title, image, url }) => (
+                                <a href={url} class="card snap-start" tabindex="-1">
+                                    <div class="image">
+                                        <img
+                                            src={image}
+                                            alt={title}
+                                            decoding="async"
+                                            class="img"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                    <span class="caption">{title}</span>
+                                </a>
+                            ))
+                        }
                     </div>
                 </div>
                 <div class="controls flex w-full flex-row items-center justify-end max-md:justify-start">
-                    <button class="button prev button-fill-primary" aria-label="Ir a la etapa anterior">
-                        <i class="ibm-chevron-left" aria-hidden="true" />
+                    <button
+                        class="button prev button-fill-primary"
+                        aria-label="Ir a la etapa anterior"
+                        aria-controls="stages-scroll-container"
+                        tabindex="-1">
+                        <i class="ibm-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <button class="button next button-fill-primary" aria-label="Ir a la etapa siguiente">
-                        <i class="ibm-chevron-right" aria-hidden="true" />
+                    <button
+                        class="button next button-fill-primary"
+                        aria-label="Ir a la etapa siguiente"
+                        aria-controls="stages-scroll-container"
+                        tabindex="-1">
+                        <i class="ibm-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
             </section>
             <script>
-                const container = document.body.querySelector<HTMLDivElement>(
-                    ".stage-section > .scroll"
-                )!;
+                const container = document.body.querySelector<HTMLDivElement>(".stage-section > .scroll")!;
                 const cards = [...container.querySelectorAll<HTMLDivElement>(".card")];
 
                 const clickCallbackPrev = () => {
                     const scrollLeft = container.scrollLeft;
-                    const scrollPadding = parseFloat(
-                        getComputedStyle(container).scrollPaddingInline
-                    );
+                    const scrollPadding = parseFloat(getComputedStyle(container).scrollPaddingInline);
                     const prevCard = cards.findLast(
                         ({ offsetLeft }) => offsetLeft - scrollLeft < scrollPadding - 2
                     );
@@ -75,9 +86,7 @@ const currentStage = stages.findIndex(({ url }) =>
                 };
                 const clickCallbackNext = () => {
                     const scrollLeft = container.scrollLeft;
-                    const scrollPadding = parseFloat(
-                        getComputedStyle(container).scrollPaddingInline
-                    );
+                    const scrollPadding = parseFloat(getComputedStyle(container).scrollPaddingInline);
                     const nextCard = cards.find(
                         ({ offsetLeft }) => offsetLeft - scrollLeft > scrollPadding + 2
                     );
@@ -98,6 +107,7 @@ const currentStage = stages.findIndex(({ url }) =>
                     .addEventListener("click", clickCallbackNext);
             </script>
         </>
+
     ) : (
         <section
             {id}
@@ -105,46 +115,62 @@ const currentStage = stages.findIndex(({ url }) =>
             {style}
             class:list={cls}
             class="stage-section animation-delay-[375ms] animate-fade flex w-full flex-row items-center justify-between max-md:justify-start"
-            aria-label="Etapas del viaje">
-            {currentStage > 0 ? (
-                <a
-                    role="listitem"
-                    href={stages[currentStage - 1]!.url}
-                    class="button prev button-fill-primary" aria-label="Ir a la etapa anterior">
-                    <i class="ibm-chevron-left" aria-hidden="true" />
-                </a>
-            ) : (
-                <a
-                    role="listitem"
-                    href={Astro.url.pathname.split("/").slice(0, -1).join("/")}
-                    class="button home button-fill-primary" aria-label="Volver al viaje">
-                    <i class="ibm-home" aria-hidden="true" />
-                </a>
-            )}
-            <div role="list" class="stages flex flex-row flex-wrap items-center justify-center">
-                {stages.map(({ url }, i) =>
-                    currentStage !== i ? (
-                        <a
-                            href={url}
-                            class="button button-muted font-semibold max-md:hidden">
-                            {i + 1}
-                        </a>
-                    ) : (
-                        <span class="button button-primary cursor-default font-semibold" aria-current="step">
-                            {i + 1}
-                        </span>
+            aria-label="Navegación entre etapas">
+            {
+                currentStage > 0 ? (
+                    <a
+                        href={stages[currentStage - 1]!.url}
+                        class="button prev button-fill-primary"
+                        aria-label="Ir a la etapa anterior"
+                        tabindex="-1">
+                        <i class="ibm-chevron-left" aria-hidden="true" />
+                    </a>
+                ) : (
+                    <a
+                        href={Astro.url.pathname.split("/").slice(0, -1).join("/")}
+                        class="button home button-fill-primary"
+                        aria-label="Volver al índice del viaje"
+                        tabindex="-1">
+                        <i class="ibm-home" aria-hidden="true" />
+                    </a>
+                )
+            }
+            <div class="stages flex flex-row flex-wrap items-center justify-center">
+                {
+                    stages.map(({ url }, i) =>
+                        currentStage !== i ? (
+                            <a
+                                href={url}
+                                class="button button-muted font-semibold max-md:hidden"
+                                aria-label={`Ir a la etapa ${i + 1}`}
+                                tabindex="-1">
+                                {i + 1}
+                            </a>
+                        ) : (
+                            <span
+                                class="button button-primary cursor-default font-semibold"
+                                aria-current="page"
+                                aria-label={`Etapa actual ${i + 1}`}>
+                                {i + 1}
+                            </span>
+                        )
                     )
-                )}
+                }
             </div>
-            {currentStage < stages.length - 1 ? (
-                <a
-                    href={stages[currentStage + 1]!.url}
-                    class="button next button-fill-primary" aria-label="Ir a la etapa siguiente">
-                    <i class="ibm-chevron-right" aria-hidden="true" />
-                </a>
-            ) : (
-                <div class="w-14" />
-            )}
+            {
+                currentStage < stages.length - 1 ? (
+                    <a
+                        href={stages[currentStage + 1]!.url}
+                        class="button next button-fill-primary"
+                        aria-label="Ir a la etapa siguiente"
+                        tabindex="-1">
+                        <i class="ibm-chevron-right" aria-hidden="true" />
+                    </a>
+                ) : (
+                    <div class="w-14" aria-hidden="true" />
+                )
+            }
         </section>
+
     )
 }

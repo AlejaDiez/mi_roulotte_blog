@@ -11,7 +11,9 @@ const { id, style, class: cls } = Astro.props;
     {style}
     class:list={cls}
     class="scroll-to-top button clip-left button-fill-primary fixed right-0 bottom-32 z-[80] transition-[background-color,color,clip-path] duration-[100ms,100ms,300ms] max-sm:bottom-40"
-    aria-label="Volver al inicio">
+    aria-label="Volver al inicio"
+    aria-hidden="true"
+    tabindex="-1">
     <i class="ibm-chevron-up" aria-hidden="true"></i>
 </button>
 
@@ -22,9 +24,13 @@ const { id, style, class: cls } = Astro.props;
     const scrollCallback = () => {
         if (window.scrollY > window.innerHeight / 3 && !visible) {
             scrollButton.classList.add("clip-none");
+            scrollButton.setAttribute("aria-hidden", "false");
+            scrollButton.setAttribute("tabindex", "0");
             visible = true;
         } else if (window.scrollY <= window.innerHeight / 3 && visible) {
             scrollButton.classList.remove("clip-none");
+            scrollButton.setAttribute("aria-hidden", "true");
+            scrollButton.setAttribute("tabindex", "-1");
             visible = false;
         }
     };

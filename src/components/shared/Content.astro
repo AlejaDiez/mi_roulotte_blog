@@ -96,7 +96,8 @@ const { content } = Astro.props as any;
                                 underline: style.underline,
                                 strikethrough: style.strikethrough,
                                 [`color-${style.color}`]: !!style.color
-                            }}>
+                            }}
+                            tabindex="-1">
                             {params.text}
                         </a>
                     );

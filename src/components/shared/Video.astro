@@ -34,7 +34,18 @@ const youtubeId = getYoutubeId(url);
 
 if (youtubeId && (!title || !thumbnail)) {
     const data = await fetch(
-        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${youtubeId}&format=json`
+        `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${youtubeId}&format=json`,
+        {
+            cf: {
+                cacheEverything: true,
+                cacheTtl: 86400,
+                cacheTtlByStatus: {
+                    "200-299": 86400,
+                    "404": 60,
+                    "500-599": 0
+                }
+            }
+        } as RequestInit
     ).then((res) => res.json<any>());
 
     title = title ?? data["title"];
@@ -46,7 +57,8 @@ if (youtubeId && (!title || !thumbnail)) {
     {id}
     {style}
     class:list={cls}
-    class="video bg-muted group relative aspect-video h-auto w-auto cursor-default overflow-hidden select-none">
+    class="video bg-muted group relative aspect-video h-auto w-auto cursor-default overflow-hidden select-none"
+    aria-label={title ? `Reproductor de video: ${title}` : "Reproductor de video"}>
     <div
         class="preview group/alt absolute top-0 left-0 z-20 h-full w-full data-hidden:pointer-events-none">
         <img
@@ -58,12 +70,14 @@ if (youtubeId && (!title || !thumbnail)) {
             aria-hidden="true"
         />
         <span
-            class="text-headline caption absolute top-0 left-0 h-24 w-full bg-linear-to-b from-[#00000099] p-6 text-white transition-[translate,opacity] duration-300 group-data-hidden/alt:-translate-y-100 group-data-hidden/alt:opacity-0">
+            class="text-headline caption absolute top-0 left-0 h-24 w-full bg-linear-to-b from-[#00000099] p-6 text-white transition-[translate,opacity] duration-300 group-data-hidden/alt:-translate-y-100 group-data-hidden/alt:opacity-0"
+            aria-hidden="true">
             {title}
         </span>
         <button
             class="player-state button button-fill-primary absolute top-1/2 left-1/2 h-20 max-h-none w-20 -translate-1/2 rounded-full p-0 transition-[background-color,scale,opacity] group-data-hidden/alt:opacity-0 hover:scale-110"
-            aria-label="Reproducir video">
+            aria-label="Reproducir video"
+            tabindex="-1">
             <i
                 class="ibm-play-filled-alt group-data-[state=buffering]:hidden group-data-[state=ended]:hidden group-data-[state=playing]:hidden"
                 aria-hidden="true">
@@ -72,7 +86,8 @@ if (youtubeId && (!title || !thumbnail)) {
             ></i>
             <i class="ibm-rotate-360 group-not-data-[state=ended]:hidden" aria-hidden="true"></i>
             <span
-                class="spinner-alt border-current border-b-transparent group-not-data-[state=buffering]:hidden">
+                class="spinner-alt border-current border-b-transparent group-not-data-[state=buffering]:hidden"
+                aria-hidden="true">
             </span>
         </button>
     </div>
@@ -94,10 +109,12 @@ if (youtubeId && (!title || !thumbnail)) {
         }
     </div>
     <div
-        class="controls is-hidden clip-none bg-muted data-hidden:clip-top absolute bottom-0 left-0 z-10 flex h-14 w-full flex-row items-center justify-start transition-[clip-path] duration-300">
+        class="controls is-hidden clip-none bg-muted data-hidden:clip-top absolute bottom-0 left-0 z-10 flex h-14 w-full flex-row items-center justify-start transition-[clip-path] duration-300"
+        aria-label="Controles del reproductor">
         <button
             class="player-state button button-primary relative h-14 w-14 p-0"
-            aria-label="Cambiar estado del video">
+            aria-label="Cambiar estado del video"
+            tabindex="-1">
             <i
                 class="ibm-play-filled-alt group-data-[state=buffering]:hidden group-data-[state=ended]:hidden group-data-[state=playing]:hidden"
                 aria-hidden="true">
@@ -105,7 +122,8 @@ if (youtubeId && (!title || !thumbnail)) {
             <i class="ibm-pause-filled group-not-data-[state=playing]:hidden" aria-hidden="true">
             </i>
             <i class="ibm-rotate-360 group-not-data-[state=ended]:hidden" aria-hidden="true"></i>
-            <span class="spinner-alt group-not-data-[state=buffering]:hidden"> </span>
+            <span class="spinner-alt group-not-data-[state=buffering]:hidden" aria-hidden="true"
+            ></span>
         </button>
         <label class="player-time">
             <span class="text-label elapsed-time" aria-live="off">00:00</span>
@@ -122,7 +140,8 @@ if (youtubeId && (!title || !thumbnail)) {
         <div class="options flex h-14 flex-row items-center justify-start px-2">
             <button
                 class="screen group/alt button button-primary group h-10 min-h-0 w-10 min-w-0 p-0"
-                aria-label="Pantalla completa">
+                aria-label="Pantalla completa"
+                tabindex="-1">
                 <i class="ibm-maximize group-data-maximized/alt:hidden" aria-hidden="true"></i>
                 <i class="ibm-minimize group-not-data-maximized/alt:hidden" aria-hidden="true"></i>
             </button>

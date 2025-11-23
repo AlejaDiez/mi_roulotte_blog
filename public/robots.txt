@@ -1,6 +1,6 @@
+# Additional rules for all other crawlers
 User-agent: *
 Allow: /
-
 Disallow: /404
 Disallow: /aviso-legal
 Disallow: /politica-cookies

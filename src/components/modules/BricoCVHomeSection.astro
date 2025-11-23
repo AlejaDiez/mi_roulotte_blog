@@ -2,7 +2,18 @@
 import Video from "@components/shared/Video.astro";
 
 const promise = fetch(
-    `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${"PLMZqxy7ks8derwsZceqoWvkNhZDsp8TF9"}&part=snippet&maxResults=50&key=${Astro.locals.runtime.env.YOUTUBE_TOKEN}`
+    `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${"PLMZqxy7ks8derwsZceqoWvkNhZDsp8TF9"}&part=snippet&maxResults=50&key=${Astro.locals.runtime.env.YOUTUBE_TOKEN}`,
+    {
+        cf: {
+            cacheEverything: true,
+            cacheTtl: 86400,
+            cacheTtlByStatus: {
+                "200-299": 86400,
+                "404": 60,
+                "500-599": 0
+            }
+        }
+    } as RequestInit
 ).then(async (res) => await res.json<any>());
 const data: string[] = (await promise)["items"].map(
     ({ snippet }: any) => `https://www.youtube.com/watch?v=${snippet.resourceId.videoId}`
@@ -13,11 +24,13 @@ const data: string[] = (await promise)["items"].map(
     id="brico-cv"
     role="region"
     class="md:**:animation-paused relative w-screen overflow-hidden select-none max-md:-left-(--space-x) max-md:scroll-mt-(--space-y) md:h-screen md:snap-start"
+    aria-roledescription="carrusel"
     aria-label="Videos de bricolaje">
     <div
-        tabindex="0"
+        id="video-scroller"
+        role="group"
         class="scroll scrollbar-hidden relative z-0 w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth md:h-full"
-        aria-label="Contenedor de videos horizontal">
+        aria-label="Lista de videos">
         <div
             class="videos flex w-max flex-row items-center justify-start gap-[calc(var(--space-x)*2)] px-(--space-x) md:h-full md:gap-[calc(var(--space)*4)] md:px-[calc(50vw-min(75vw,4/3*75vh)/2)]">
             {
@@ -28,7 +41,7 @@ const data: string[] = (await promise)["items"].map(
                             style={{
                                 "animation-delay": `${i * 75}ms`
                             }}
-                            class="animate-clip-top !aspect-landscape !w-[calc(100vw-var(--space-x)*2)] snap-center md:!w-[min(75vw,calc(4/3*75vh))]"
+                            class="animate-clip-top aspect-landscape! w-[calc(100vw-var(--space-x)*2)]! snap-center md:w-[min(75vw,calc(4/3*75vh))]!"
                         />
                     ))
                 ) : (
@@ -39,12 +52,16 @@ const data: string[] = (await promise)["items"].map(
     </div>
     <button
         class="prev button button-fill-primary animate-clip-right animation-delay-500 absolute top-1/2 left-(--space-x) z-10 -translate-y-1/2"
-        aria-label="Vídeo anterior">
+        aria-label="Vídeo anterior"
+        aria-controls="video-scroller"
+        tabindex="-1">
         <i class="ibm-chevron-left" aria-hidden="true"></i>
     </button>
     <button
         class="next button button-fill-primary animate-clip-left animation-delay-500 absolute top-1/2 right-(--space-x) z-10 -translate-y-1/2"
-        aria-label="Siguiente vídeo">
+        aria-label="Siguiente vídeo"
+        aria-controls="video-scroller"
+        tabindex="-1">
         <i class="ibm-chevron-right" aria-hidden="true"></i>
     </button>
 </section>

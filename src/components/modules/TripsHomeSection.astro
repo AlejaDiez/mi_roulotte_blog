@@ -23,9 +23,10 @@ const data = await query;
     id="viajes"
     role="region"
     class="max-md:aspect-portrait md:**:animation-paused relative w-full overflow-hidden select-none max-md:scroll-mt-(--space-y) md:h-screen md:w-screen md:snap-start"
-    aria-label="Sección de viajes de Mi Roulotte">
+    aria-label="Galería de viajes realizados">
     <div
-        class="subtitle animate-clip-left md:animate-clip-top bg-primary absolute top-0 z-10 flex h-(--space-y) w-(--space-y) items-center justify-center overflow-hidden max-md:left-0 md:top-(--space-y) md:right-[calc(var(--space-overflow)+50%)]">
+        class="subtitle animate-clip-left md:animate-clip-top bg-primary absolute top-0 z-10 flex h-(--space-y) w-(--space-y) items-center justify-center overflow-hidden max-md:left-0 md:top-(--space-y) md:right-[calc(var(--space-overflow)+50%)]"
+        aria-hidden="true">
         {
             data?.map(({}, i) => (
                 <span
@@ -43,12 +44,14 @@ const data = await query;
                 <>
                     <span
                         class:list={{ selected: i === 0 }}
-                        class="text-label text-muted-foreground-variant absolute top-1/4 max-md:hidden">
+                        class="text-label text-muted-foreground-variant absolute top-1/4 max-md:hidden"
+                        aria-hidden={i !== 0 ? "true" : "false"}>
                         {tripDate(date!)}
                     </span>
                     <h1
                         class:list={{ selected: i === 0 }}
-                        class="text-title max-md:text-vertical absolute max-md:rotate-180 max-md:whitespace-nowrap md:line-clamp-1">
+                        class="text-title max-md:text-vertical absolute max-md:rotate-180 max-md:whitespace-nowrap md:line-clamp-1"
+                        aria-hidden={i !== 0 ? "true" : "false"}>
                         {name}
                     </h1>
                 </>
@@ -59,19 +62,29 @@ const data = await query;
         class="content animation-delay-[375ms] animate-fade absolute bottom-0 left-0 h-14 w-[calc(100%-3.5rem-4*var(--space))] overflow-hidden md:bottom-(--space-y) md:left-(--space-x) md:h-[calc(100%-var(--space-y)*3-var(--spacing)*64-var(--space-between))] md:w-[calc(50%-var(--space-x)-var(--space-overflow)-var(--space-y))]"
         aria-live="polite">
         {
-            data?.map(({ description, url, video }, i) => (
+            data?.map(({ name, description, url, video }, i) => (
                 <div
                     class:list={{ selected: i === 0 }}
-                    class="absolute flex h-full w-full flex-col items-start justify-start gap-[calc(var(--space)*2)]">
+                    class="absolute flex h-full w-full flex-col items-start justify-start gap-[calc(var(--space)*2)]"
+                    aria-hidden={i !== 0 ? "true" : "false"}>
                     <div class="description scrollbar-hidden w-full overflow-scroll mask-t-to-[calc(var(--space)*2)] mask-exclude max-md:hidden">
                         <p class="text-normal pb-[calc(var(--space)*2)]">{description}</p>
                     </div>
                     <div class="actions flex w-full flex-row items-start justify-start gap-[calc(var(--space)*4)]">
-                        <a href={url} class="button button-outline-primary">
+                        <a
+                            href={url}
+                            class="button button-outline-primary"
+                            aria-label={`Ver más sobre el viaje a ${name}`}
+                            tabindex="-1">
                             <span>Ver más</span>
                         </a>
                         {video && (
-                            <a href={video} target="_blank" class="button button-fill-primary">
+                            <a
+                                href={video}
+                                target="_blank"
+                                class="button button-fill-primary"
+                                aria-label={`Ver video del viaje a ${name}`}
+                                tabindex="-1">
                                 <i class="ibm-video" aria-hidden="true" />
                             </a>
                         )}
@@ -84,10 +97,13 @@ const data = await query;
         class="hero-image animate-clip-bottom animation-delay-500 group absolute top-0 right-0 h-[calc(100%-3.5rem-4*var(--space))] w-[calc(100%-var(--space-y))] overflow-hidden md:top-(--space-y) md:right-(--space-x) md:h-[calc(100%-var(--space-y)*2)] md:w-[calc(50%+var(--space-overflow)-var(--space-x))]">
         {
             data?.map(({ date, name, image }, i) => (
-                <div class:list={{ selected: i === 0 }} class="absolute h-full w-full">
+                <div
+                    class:list={{ selected: i === 0 }}
+                    class="absolute h-full w-full"
+                    aria-hidden={i !== 0 ? "true" : "false"}>
                     <img
                         src={image}
-                        alt={`${name} ${date!.getFullYear()}`}
+                        alt={`Paisaje de ${name}, ${date!.getFullYear()}`}
                         decoding="async"
                         class="h-full w-full scale-105 object-cover object-center transition-transform duration-300 md:group-hover:scale-115 md:group-hover:transition-[scale]"
                     />
@@ -99,12 +115,14 @@ const data = await query;
         class="controls animation-delay-[375ms] animate-fade md:animate-clip-left md:animation-delay-1000 absolute right-0 bottom-0 z-10 flex flex-row items-center justify-end md:right-(--space-x) md:bottom-(--space-y)">
         <button
             class="prev button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground max-md:hidden"
-            aria-label="Viaje anterior">
+            aria-label="Viaje anterior"
+            tabindex="-1">
             <i class="ibm-chevron-left" aria-hidden="true"></i>
         </button>
         <button
             class="next button button-fill-primary md:bg-background md:hover:bg-background-hover md:text-foreground"
-            aria-label="Siguiente anterior">
+            aria-label="Siguiente anterior"
+            tabindex="-1">
             <i class="ibm-chevron-right" aria-hidden="true"></i>
         </button>
     </div>
@@ -157,7 +175,9 @@ const data = await query;
 
         [subtitles, titles, titlesLabels, contents, images].forEach((e) => {
             e.at(index)?.classList.remove("selected");
+            e.at(index)?.setAttribute("aria-hidden", "true");
             e.at(newIndex)?.classList.add("selected");
+            e.at(newIndex)?.setAttribute("aria-hidden", "false");
         });
         index = newIndex;
     };
@@ -167,7 +187,9 @@ const data = await query;
 
         [subtitles, titles, titlesLabels, contents, images].forEach((e) => {
             e.at(index)?.classList.remove("selected");
+            e.at(index)?.setAttribute("aria-hidden", "true");
             e.at(newIndex)?.classList.add("selected");
+            e.at(newIndex)?.setAttribute("aria-hidden", "false");
         });
         index = newIndex;
     };

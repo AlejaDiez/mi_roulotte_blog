@@ -14,7 +14,8 @@ const { content, id, style, class: cls } = Astro.props;
     role="region"
     {style}
     class:list={cls}
-    class="content-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start">
+    class="content-section animation-delay-[375ms] animate-fade flex w-full flex-col items-start justify-start"
+    aria-label="Contenido principal">
     <Content {content} />
 </section>
 
