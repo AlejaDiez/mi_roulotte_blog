@@ -54,7 +54,7 @@ const { content } = Astro.props as any;
                         url={data.url}
                         caption={data.caption}
                         class:list={{
-                            [`aspect-ratio-${style["aspect-ratio"]}`]: !!style["aspect-ratio"],
+                            [`aspect-ratio-${style.aspectRatio}`]: !!style.aspectRatio,
                             [`col-${style.cols}`]: !!style.cols,
                             [`row-${style.rows}`]: !!style.rows
                         }}
@@ -67,7 +67,7 @@ const { content } = Astro.props as any;
                         title={data.title}
                         thumbnail={data.thumbnail}
                         class:list={{
-                            [`aspect-ratio-${style["aspect-ratio"]}`]: !!style["aspect-ratio"],
+                            [`aspect-ratio-${style.aspectRatio}`]: !!style.aspectRatio,
                             [`col-${style.cols}`]: !!style.cols,
                             [`row-${style.rows}`]: !!style.rows
                         }}
