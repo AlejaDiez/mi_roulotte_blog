@@ -16,7 +16,7 @@ const Component = ({ url, caption }: Props) => {
     return (
         <div
             role="dialog"
-            className="lightbox bg-background fixed top-0 left-0 z-[90] flex h-full w-full cursor-default flex-col items-center justify-center gap-2 overflow-hidden p-(--space-y) select-none"
+            className="lightbox bg-background fixed top-0 left-0 z-90 flex h-full w-full cursor-default flex-col items-center justify-center gap-2 overflow-hidden p-(--space-y) select-none"
             aria-modal="true"
             aria-label="Vista ampliada de imagen"
             aria-describedby={caption ? "lightbox-caption" : undefined}>
